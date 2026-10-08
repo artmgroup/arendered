@@ -15,19 +15,19 @@
       }
       let saved;
       try { saved = localStorage.getItem('arendered-theme'); } catch {}
-      const preference = saved === 'light' || saved === 'dark' ? saved : 'system';
+      const preference = saved === 'dark' ? 'dark' : 'light';
       document.documentElement.dataset.themePreference = preference;
-      document.documentElement.dataset.theme = preference === 'system' ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : preference;
+      document.documentElement.dataset.theme = preference;
     })();
   </script>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='white'/%3E%3Ctext x='32' y='49' text-anchor='middle' font-family='Arial,sans-serif' font-weight='700' font-size='48'%3EA%3C/text%3E%3C/svg%3E">
-  <link rel="stylesheet" href="styles.css?v=20261008-touch2">
+  <link rel="stylesheet" href="styles.css?v=20261008-theme1">
   <link rel="preload" as="font" type="font/otf" href="assets/suisse-intl-regular.otf" crossorigin>
   <link rel="preload" as="image" href="assets/horse-rider-loader.svg" media="(prefers-reduced-motion: no-preference)">
   <link rel="preload" as="image" href="assets/horse-rider-still.svg" media="(prefers-reduced-motion: reduce)">
   <link rel="preload" as="image" href="assets/path-by-28.webp" fetchpriority="high">
   <script src="projects.js" defer></script>
-  <script src="app.js?v=20261008-touch2" defer></script>
+  <script src="app.js?v=20261008-theme1" defer></script>
 </head>
 <body>
   <div id="page-loader" class="page-loader" role="status" aria-label="Loading page" aria-hidden="true" hidden>
