@@ -8,6 +8,8 @@ Mobile editorial landscape frames keep the desktop presentation rule: 70% of the
 
 Mobile photo frames do not clamp their outer figure to the phone width. The frame expands to the image's rendered width so the 10px reel gap stays real and images cannot visually overlap the next frame. Width-bound portrait crops remain phone-width frames.
 
+A mobile gesture that starts before the horizontal edge stays horizontal for its full duration; any unused distance is discarded at the edge. A new downward gesture begins document scrolling only after the edge is reached, preventing a diagonal handoff or boundary tremor.
+
 ## 2026-10-08 continuous mobile reading gesture
 
 Project gestures have one owner across the reel and its continuation archive. A vertical swipe advances the horizontal reel first; only the distance remaining after the last credits reach the left edge moves the document down. Reverse gestures retrace that same path. Both horizontal and vertical swipes lock their dominant axis after 4px to avoid direction jitter. Fingers track content directly, without a delayed tween.
