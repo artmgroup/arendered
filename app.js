@@ -665,7 +665,7 @@
 
   function moveTouch(delta, gesture) {
     const limits = scrollLimits();
-    if (gesture.axis === 'x') {
+    if (gesture.axis === 'x' || gesture.horizontalOnly) {
       const before = reel.scrollLeft;
       const position = Math.max(0, Math.min(limits.horizontal, before + delta));
       applyScroll(position, limits.horizontal);
@@ -701,6 +701,7 @@
     touchPoint = {
       id: point.identifier, x: point.clientX, y: point.clientY,
       startX: point.clientX, startY: point.clientY, axis: null,
+      horizontalOnly: false,
       distance: 0, samples: [{ time: performance.now(), distance: 0 }],
       panelPosition: readingPosition(),
       panel: event.target.closest('.reel-intro-copy, .reel-description, .reel-credits, .reel-gallery')
@@ -718,6 +719,7 @@
       if (Math.max(Math.abs(dx), Math.abs(dy)) < touchMotion.threshold) return;
       gesture.axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
       if (gesture.axis === 'x') gesture.panel = null;
+      gesture.horizontalOnly = gesture.axis === 'y' && scrollY <= .1 && reel.scrollLeft < scrollLimits().horizontal - .5;
     }
     event.preventDefault();
     const delta = gesture.axis === 'x' ? gesture.x - point.clientX : gesture.y - point.clientY;
