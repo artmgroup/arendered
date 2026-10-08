@@ -149,6 +149,7 @@
   }
 
   function scrollToReading(position, smooth = true) {
+    if (mobileArchive.matches) smooth = false;
     if (scrollAnimation?.kind === 'touch') cancelScroll();
     const limits = scrollLimits();
     const target = Math.max(0, Math.min(limits.total, position));
@@ -728,7 +729,7 @@
   document.addEventListener('touchend', event => {
     const gesture = touchPoint;
     touchPoint = null;
-    if (!gesture?.axis || event.touches.length || reducedMotion.matches || menuOpen) return;
+    if (!gesture?.axis || event.touches.length || reducedMotion.matches || menuOpen || mobileArchive.matches) return;
     const samples = gesture.samples;
     const first = samples[0];
     const last = samples[samples.length - 1];
