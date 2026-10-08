@@ -212,7 +212,7 @@ main { padding-top: var(--header-height); min-width: 0; }
 }
 @media (max-width: 600px) {
   :root { --thumbnail-width: calc(100vw - var(--edge) * 2); --loader-width: 160px; }
-  .reel-photo { max-width: calc(100vw - var(--edge) * 2); }
+  .reel-photo { max-width: none; }
   .reel-photo img { object-position: top left; }
   .reel-photo--landscape img { height: 70%; max-width: none; }
   .reel-photo--portrait-crop img, .reel-photo--portrait-full img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; }
