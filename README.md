@@ -16,7 +16,7 @@ Opening `index.html` directly redirects to this local address and preserves the 
 ## Navigation
 
 - Hover or focus a thumbnail to reveal its title over a strong translucent wash and dissolve its credits into the right column. Select it to send those credits off to the right while the image rises into the project header and the content dissolves in, with the horse loader preserved. Touch opens projects directly; reduced motion skips these animations.
-- Scroll with a wheel or trackpad for HEJIK-inspired smooth motion through the horizontal gallery. Touch follows the gesture directly, and reduced motion disables the easing.
+- Scroll with a wheel or trackpad for HEJIK-inspired smooth motion through the horizontal gallery. Touch follows the gesture directly, then decelerates from the release speed. A downward reading gesture carries through the last credits into the archive without restarting; reversing it returns through the same boundary. A fresh touch stops momentum immediately. Reduced motion keeps direct gestures without release inertia.
 - Continue horizontally until the final credits reach the left edge, then scroll down to reach the project archive below.
 - With the project title or gallery focused, use arrow keys, Page Up/Down, or Space to navigate. Home/End moves to the start/end of the gallery.
 - Press Escape to return to the main archive and restore its scroll position.

@@ -30,6 +30,13 @@
   const scrollStyle = getComputedStyle(document.documentElement);
   const scrollLerp = parseFloat(scrollStyle.getPropertyValue('--scroll-lerp'));
   const wheelMultiplier = parseFloat(scrollStyle.getPropertyValue('--scroll-wheel-multiplier'));
+  const touchMotion = {
+    threshold: parseFloat(scrollStyle.getPropertyValue('--touch-axis-threshold')),
+    window: parseFloat(scrollStyle.getPropertyValue('--touch-velocity-window')),
+    decay: parseFloat(scrollStyle.getPropertyValue('--touch-deceleration')),
+    maxVelocity: parseFloat(scrollStyle.getPropertyValue('--touch-max-velocity')),
+    stopVelocity: parseFloat(scrollStyle.getPropertyValue('--touch-stop-velocity'))
+  };
   const coarsePointer = matchMedia('(pointer: coarse)');
   const hoverPointer = matchMedia('(any-hover: hover)');
   const mobileArchive = matchMedia('(max-width: 600px), (max-width: 940px) and (max-aspect-ratio: 3/4) and (pointer: coarse)');
@@ -117,8 +124,20 @@
   }
 
   function animateScroll(time) {
-    const limits = scrollLimits();
     const animation = scrollAnimation;
+    if (!animation) return;
+    if (animation.kind === 'touch') {
+      const elapsed = Math.min(time - animation.time, 64);
+      animation.time = time;
+      const decay = Math.exp(-elapsed / touchMotion.decay);
+      const distance = animation.velocity * touchMotion.decay * (1 - decay);
+      animation.velocity *= decay;
+      const moved = moveTouch(distance, animation);
+      if (!moved || Math.abs(animation.velocity) < touchMotion.stopVelocity) cancelScroll();
+      else scrollFrame = requestAnimationFrame(animateScroll);
+      return;
+    }
+    const limits = scrollLimits();
     animation.target = Math.min(animation.target, limits.total);
     const elapsed = (time - animation.time) / 1000;
     animation.time = time;
@@ -130,6 +149,7 @@
   }
 
   function scrollToReading(position, smooth = true) {
+    if (scrollAnimation?.kind === 'touch') cancelScroll();
     const limits = scrollLimits();
     const target = Math.max(0, Math.min(limits.total, position));
     const current = readingPosition();
@@ -154,12 +174,15 @@
   for (const event of ['pointerdown', 'touchstart', 'keydown', 'wheel', 'focusin']) {
     document.addEventListener(event, cancelEntrance, { passive: true });
   }
-  window.addEventListener('resize', cancelScroll);
+  window.addEventListener('resize', () => { touchPoint = null; cancelScroll(); });
   window.addEventListener('resize', cancelEntrance);
-  document.addEventListener('visibilitychange', () => { if (document.hidden) cancelScroll(); });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { touchPoint = null; cancelScroll(); }
+  });
   reducedMotion.addEventListener('change', () => {
     cancelEntrance();
-    if (scrollAnimation) scrollToReading(scrollAnimation.target, false);
+    if (scrollAnimation?.kind === 'touch') cancelScroll();
+    else if (scrollAnimation) scrollToReading(scrollAnimation.target, false);
   });
 
   function showPageLoader(view, initial) {
@@ -388,7 +411,7 @@
     menuOpen = open;
     window.clearTimeout(menuCloseTimer);
     cancelAnimationFrame(menuOpenFrame);
-    if (open) { cancelScroll(); hideCreditPreview(false, true); }
+    if (open) { touchPoint = null; cancelScroll(); hideCreditPreview(false, true); }
     if (open) {
       menu.hidden = false;
       menuOpenFrame = requestAnimationFrame(() => menu.classList.add('is-open'));
@@ -560,6 +583,7 @@
   }
 
   function route(restore = false, origin = null, exitingPreview = false) {
+    touchPoint = null;
     cancelEntrance();
     cancelScroll();
     if (!exitingPreview) hideCreditPreview(false, true);
@@ -638,20 +662,85 @@
     if (advance(delta * wheelMultiplier, true)) event.preventDefault();
   }, { passive: false });
 
-  reel.addEventListener('touchstart', event => {
-    touchPoint = event.touches.length === 1 ? { x: event.touches[0].clientX, y: event.touches[0].clientY } : null;
-  }, { passive: true });
-  reel.addEventListener('touchmove', event => {
-    if (!touchPoint || event.touches.length !== 1 || menuOpen) return;
+  function moveTouch(delta, gesture) {
+    const limits = scrollLimits();
+    const start = readingPosition();
+    const panel = gesture.panel;
+    const panelStart = panel?.scrollTop || 0;
+    let remaining = delta;
+    if (panel?.isConnected && panel.scrollHeight > panel.clientHeight + 1) {
+      const offset = start - gesture.panelPosition;
+      if (offset * remaining < 0) {
+        const returning = Math.sign(remaining) * Math.min(Math.abs(remaining), Math.abs(offset));
+        applyScroll(start + returning, limits.horizontal);
+        remaining -= returning;
+      }
+      if (Math.abs(readingPosition() - gesture.panelPosition) < .5) {
+        panel.scrollTop = Math.max(0, Math.min(panel.scrollHeight - panel.clientHeight, panelStart + remaining));
+        remaining -= panel.scrollTop - panelStart;
+      }
+    }
+    const before = readingPosition();
+    const position = Math.max(0, Math.min(limits.total, before + remaining));
+    applyScroll(position, limits.horizontal);
+    return Math.abs((panel?.scrollTop || 0) - panelStart) + Math.abs(position - start) > .01;
+  }
+
+  document.addEventListener('touchstart', event => {
+    touchPoint = null;
+    if (!currentProject || menuOpen || event.touches.length !== 1 ||
+      !event.target.closest('#project-view') || event.target.closest('button, input, textarea, select, iframe')) return;
     const point = event.touches[0];
-    const dx = touchPoint.x - point.clientX;
-    const dy = touchPoint.y - point.clientY;
-    touchPoint = { x: point.clientX, y: point.clientY };
-    if (Math.abs(dx) >= Math.abs(dy) || textCanScroll(event.target, dy)) return;
-    if (advance(dy)) event.preventDefault();
+    touchPoint = {
+      id: point.identifier, x: point.clientX, y: point.clientY,
+      startX: point.clientX, startY: point.clientY, axis: null,
+      distance: 0, samples: [{ time: performance.now(), distance: 0 }],
+      panelPosition: readingPosition(),
+      panel: event.target.closest('.reel-intro-copy, .reel-description, .reel-credits, .reel-gallery')
+    };
+  }, { passive: true });
+  document.addEventListener('touchmove', event => {
+    if (!touchPoint || menuOpen) return;
+    if (event.touches.length !== 1 || !event.cancelable) { touchPoint = null; return; }
+    const point = event.touches[0];
+    if (point.identifier !== touchPoint.id) return;
+    const gesture = touchPoint;
+    if (!gesture.axis) {
+      const dx = gesture.startX - point.clientX;
+      const dy = gesture.startY - point.clientY;
+      if (Math.max(Math.abs(dx), Math.abs(dy)) < touchMotion.threshold) return;
+      gesture.axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+      if (gesture.axis === 'x') gesture.panel = null;
+    }
+    event.preventDefault();
+    const delta = gesture.axis === 'x' ? gesture.x - point.clientX : gesture.y - point.clientY;
+    gesture.x = point.clientX;
+    gesture.y = point.clientY;
+    moveTouch(delta, gesture);
+    const time = performance.now();
+    const samples = gesture.samples;
+    const previousDelta = gesture.distance - samples[Math.max(0, samples.length - 2)].distance;
+    if (delta * previousDelta < 0) samples.splice(0, samples.length - 1);
+    gesture.distance += delta;
+    samples.push({ time, distance: gesture.distance });
+    while (samples.length > 2 && samples[0].time < time - touchMotion.window) samples.shift();
   }, { passive: false });
-  reel.addEventListener('touchend', () => { touchPoint = null; }, { passive: true });
-  reel.addEventListener('touchcancel', () => { touchPoint = null; }, { passive: true });
+  document.addEventListener('touchend', event => {
+    const gesture = touchPoint;
+    touchPoint = null;
+    if (!gesture?.axis || event.touches.length || reducedMotion.matches || menuOpen) return;
+    const samples = gesture.samples;
+    const first = samples[0];
+    const last = samples[samples.length - 1];
+    const time = performance.now();
+    if (time - last.time > touchMotion.window || last.time <= first.time) return;
+    const velocity = Math.max(-touchMotion.maxVelocity, Math.min(touchMotion.maxVelocity,
+      (last.distance - first.distance) / (last.time - first.time)));
+    if (Math.abs(velocity) < touchMotion.stopVelocity) return;
+    scrollAnimation = { kind: 'touch', velocity, time, panel: gesture.panel, panelPosition: gesture.panelPosition };
+    scrollFrame = requestAnimationFrame(animateScroll);
+  }, { passive: true });
+  document.addEventListener('touchcancel', () => { touchPoint = null; cancelScroll(); }, { passive: true });
 
   function moveFrame(direction) {
     const position = scrollAnimation?.target ?? readingPosition();

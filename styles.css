@@ -58,6 +58,11 @@
   --player-scroll-buffer: 10000px;
   --scroll-lerp: .085;
   --scroll-wheel-multiplier: .86;
+  --touch-axis-threshold: 4;
+  --touch-velocity-window: 80;
+  --touch-deceleration: 280;
+  --touch-max-velocity: 3;
+  --touch-stop-velocity: .02;
   font-family: "Suisse Intl", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px;
   color: var(--ink);

@@ -1,5 +1,15 @@
 # ARENDERED design system
 
+## 2026-10-08 continuous mobile reading gesture
+
+Project gestures have one owner across the reel and its continuation archive. A vertical swipe advances the horizontal reel first; only the distance remaining after the last credits reach the left edge moves the document down. Reverse gestures retrace that same path. Both horizontal and vertical swipes lock their dominant axis after 4px to avoid direction jitter. Fingers track content directly, without a delayed tween.
+
+On release, the recent gesture velocity continues along the same reading path with exponential deceleration (280ms time constant, maximum 3px/ms, stop below .02px/ms). Velocity is sampled over the most recent 80ms; holding still for 80ms before release suppresses inertia. A fresh touch, menu, route, focus change or viewport resize interrupts movement immediately. Reduced motion preserves direct gestures and omits release inertia. Pinch zoom and player controls remain available.
+
+Scrollable copy consumes vertical movement first; any remaining distance passes to the reel during that same gesture. The same rule applies during deceleration, so long descriptions stay readable without a second swipe at their boundary. Do not restart momentum or reset position when changing from horizontal to vertical travel.
+
+Mechanism references: [beui scroll-animation](https://beui.dev/r/scroll-animation/raw) for interruptible scroll ownership and reduced-motion handling; [StyleGallery reel](https://github.com/changeroa/StyleGallery/blob/main/patterns/in-line-grouping/reel.md) for the existing horizontal container. The combined horizontal-to-vertical gesture is a project-specific extension of the existing controller, with no added runtime dependency. This supersedes the earlier immediate-touch-only rule.
+
 ## Adaptive mobile introductions and menu hierarchy
 
 Projects and About use weight 700; their project children remain weight 400. Keep the existing text size, complete menu border and spacing.
