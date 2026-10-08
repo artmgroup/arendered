@@ -2,7 +2,7 @@
 
 ## 2026-10-08 mobile reel ownership and editorial image scale
 
-On touch layouts the project reel owns both axes for the duration of a gesture (`touch-action: none`). The document only receives distance after the reel reaches its horizontal limit; this removes native browser scroll competition and keeps the turn into the continuation archive continuous. Copy panels remain part of the same controller and consume their own vertical overflow before gallery travel. Release velocity uses the shared touch damping token and is interrupted by a new gesture.
+On touch layouts the project reel owns both axes for the duration of a gesture (`touch-action: none`). The document only receives distance after the reel reaches its horizontal limit; this removes native browser scroll competition and keeps the turn into the continuation archive continuous. Copy panels remain part of the same controller and consume their own vertical overflow before gallery travel. Mobile follows Kontakt's direct reading model: the finger position is applied immediately and release inertia is disabled. Desktop wheel and trackpad input alone use the Hejik-inspired eased scroll.
 
 Mobile editorial landscape frames keep the desktop presentation rule: 70% of the reel height, natural image width, top alignment unless the project explicitly marks a frame bottom aligned. The phone width no longer clamps these horizontal photographs. Portrait crops and full-height portraits retain their width-bound 4:5 rules. This keeps the editorial sequence spatially consistent between desktop and mobile while preserving the horizontal reading path.
 
@@ -10,7 +10,7 @@ Mobile editorial landscape frames keep the desktop presentation rule: 70% of the
 
 Project gestures have one owner across the reel and its continuation archive. A vertical swipe advances the horizontal reel first; only the distance remaining after the last credits reach the left edge moves the document down. Reverse gestures retrace that same path. Both horizontal and vertical swipes lock their dominant axis after 4px to avoid direction jitter. Fingers track content directly, without a delayed tween.
 
-On release, the recent gesture velocity continues along the same reading path with exponential deceleration (280ms time constant, maximum 3px/ms, stop below .02px/ms). Velocity is sampled over the most recent 80ms; holding still for 80ms before release suppresses inertia. A fresh touch, menu, route, focus change or viewport resize interrupts movement immediately. Reduced motion preserves direct gestures and omits release inertia. Pinch zoom and player controls remain available.
+On desktop wheel and trackpad input, the recent target continues along the reading path with exponential easing. On mobile, release stops at the exact direct-touch position, matching Kontakt's native-feeling page-to-reel handoff. A fresh touch, menu, route, focus change or viewport resize interrupts any desktop movement immediately. Reduced motion preserves direct gestures. Pinch zoom and player controls remain available.
 
 Scrollable copy consumes vertical movement first; any remaining distance passes to the reel during that same gesture. The same rule applies during deceleration, so long descriptions stay readable without a second swipe at their boundary. Do not restart momentum or reset position when changing from horizontal to vertical travel.
 
