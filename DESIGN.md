@@ -1,5 +1,11 @@
 # ARENDERED design system
 
+## 2026-10-08 mobile reel ownership and editorial image scale
+
+On touch layouts the project reel owns both axes for the duration of a gesture (`touch-action: none`). The document only receives distance after the reel reaches its horizontal limit; this removes native browser scroll competition and keeps the turn into the continuation archive continuous. Copy panels remain part of the same controller and consume their own vertical overflow before gallery travel. Release velocity uses the shared touch damping token and is interrupted by a new gesture.
+
+Mobile editorial landscape frames keep the desktop presentation rule: 70% of the reel height, natural image width, top alignment unless the project explicitly marks a frame bottom aligned. The phone width no longer clamps these horizontal photographs. Portrait crops and full-height portraits retain their width-bound 4:5 rules. This keeps the editorial sequence spatially consistent between desktop and mobile while preserving the horizontal reading path.
+
 ## 2026-10-08 continuous mobile reading gesture
 
 Project gestures have one owner across the reel and its continuation archive. A vertical swipe advances the horizontal reel first; only the distance remaining after the last credits reach the left edge moves the document down. Reverse gestures retrace that same path. Both horizontal and vertical swipes lock their dominant axis after 4px to avoid direction jitter. Fingers track content directly, without a delayed tween.

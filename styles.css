@@ -59,8 +59,8 @@
   --scroll-lerp: .085;
   --scroll-wheel-multiplier: .86;
   --touch-axis-threshold: 4;
-  --touch-velocity-window: 80;
-  --touch-deceleration: 280;
+  --touch-velocity-window: 96;
+  --touch-deceleration: 360;
   --touch-max-velocity: 3;
   --touch-stop-velocity: .02;
   font-family: "Suisse Intl", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -213,7 +213,8 @@ main { padding-top: var(--header-height); min-width: 0; }
 @media (max-width: 600px) {
   :root { --thumbnail-width: calc(100vw - var(--edge) * 2); --loader-width: 160px; }
   .reel-photo { max-width: calc(100vw - var(--edge) * 2); }
-  .reel-photo img { height: 100%; max-width: 100%; object-position: top left; }
+  .reel-photo img { object-position: top left; }
+  .reel-photo--landscape img { height: 70%; max-width: none; }
   .reel-photo--portrait-crop img, .reel-photo--portrait-full img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; }
   .reel-intro { flex-direction: column; width: calc(100vw - var(--edge) * 2); min-width: calc(100vw - var(--edge) * 2); }
   .reel-lead-stack { width: 100%; }
@@ -233,6 +234,7 @@ main { padding-top: var(--header-height); min-width: 0; }
 }
 @media (max-width: 600px), (max-width: 940px) and (max-aspect-ratio: 3/4) and (pointer: coarse) {
   :root { --thumbnail-width: calc(100vw - var(--edge) * 2); --editorial-image-width: calc((100vw - var(--edge) * 3) / 2); }
+  .project-reel { touch-action: none; }
   .project-list { padding-bottom: max(var(--edge), var(--archive-tail, var(--edge))); }
   .mobile-project-info { display: block; margin-top: var(--edge); padding-bottom: var(--space-medium); opacity: var(--archive-info-opacity, 1); transform: translateY(calc((1 - var(--archive-info-opacity, 1)) * var(--archive-info-travel))); }
   .project-card .project-caption { display: none; }
