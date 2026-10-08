@@ -665,6 +665,12 @@
 
   function moveTouch(delta, gesture) {
     const limits = scrollLimits();
+    if (gesture.axis === 'x') {
+      const before = reel.scrollLeft;
+      const position = Math.max(0, Math.min(limits.horizontal, before + delta));
+      applyScroll(position, limits.horizontal);
+      return Math.abs(position - before) > .01;
+    }
     const start = readingPosition();
     const panel = gesture.panel;
     const panelStart = panel?.scrollTop || 0;
