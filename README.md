@@ -46,6 +46,8 @@ Opening `index.html` directly redirects to this local address and preserves the 
 The array order in `projects.js` controls the archive, menu, and continuation order: Hyundai Motorstudio Seoul, CMF Master Talk, RETRACE, path by, MUSINSA MUJINJANG, KT Y. Add images as `{ "src": "assets/image.webp", "width": 1200, "height": 800 }`. `layout` selects gallery images by their original one-based source number; `coverImage` selects the archive/opening cover. Excluded images remain in the source catalog but are not mounted in the gallery.
 Project years were confirmed by the user: CMF Master Talk, RETRACE and Hyundai Motorstudio Seoul were made in 2025; path by, MUSINSA and KT Y in 2026. Contest entries are identified explicitly rather than presented as commissioned work. English descriptions and path by captions are editorial copy based on the supplied photographs and films.
 
+When changing project order, update the `projects.js` request version in `index.html` so returning visitors receive the same order in the archive and INDEX. The high-priority image preload should follow the first project's cover.
+
 ## Sources
 
 - Layout reference: https://kontakt.press/
