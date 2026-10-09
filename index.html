@@ -21,13 +21,13 @@
     })();
   </script>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='white'/%3E%3Ctext x='32' y='49' text-anchor='middle' font-family='Arial,sans-serif' font-weight='700' font-size='48'%3EA%3C/text%3E%3C/svg%3E">
-  <link rel="stylesheet" href="styles.css?v=20261009-native-touch">
+  <link rel="stylesheet" href="styles.css?v=20261009-index-sheet">
   <link rel="preload" as="font" type="font/otf" href="assets/suisse-intl-regular.otf" crossorigin>
   <link rel="preload" as="image" href="assets/horse-rider-loader.svg" media="(prefers-reduced-motion: no-preference)">
   <link rel="preload" as="image" href="assets/horse-rider-still.svg" media="(prefers-reduced-motion: reduce)">
   <link rel="preload" as="image" href="assets/path-by-28.webp" fetchpriority="high">
   <script src="projects.js" defer></script>
-  <script src="app.js?v=20261009-native-touch" defer></script>
+  <script src="app.js?v=20261009-index-sheet" defer></script>
 </head>
 <body>
   <div id="page-loader" class="page-loader" role="status" aria-label="Loading page" aria-hidden="true" hidden>
@@ -43,22 +43,21 @@
       <p>creative production<br>video · photography · media art<br><a href="mailto:heewon@arendered.com">heewon@arendered.com</a></p>
     </div>
     <div class="header-actions">
-      <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
-        <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor"/><path d="M8 1.75a6.25 6.25 0 0 0 0 12.5Z" fill="currentColor"/></svg>
+      <button class="header-control theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
+        <span class="header-control-glyph"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1"/><path d="M8 1.75a6.25 6.25 0 0 0 0 12.5Z" fill="currentColor"/></svg></span>
       </button>
-      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="index-menu">
-        <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M2 8h12M8 2v12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg>
+      <a class="header-control about-toggle" href="#about" aria-label="About ARENDERED">
+        <span class="header-control-glyph"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1"/><circle cx="8" cy="4.9" r=".65" fill="currentColor"/><path d="M7.25 7H8v4h.75" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg></span>
+      </a>
+      <button class="header-control menu-toggle" type="button" aria-label="Open index" aria-expanded="false" aria-controls="index-menu">
+        <span class="header-control-glyph">INDEX</span>
       </button>
     </div>
   </header>
-  <nav id="index-menu" class="index-menu" aria-label="Main menu" hidden inert>
-    <ul class="menu-pages">
-      <li>
-        <a class="menu-heading" href="#">Projects</a>
-        <ul id="menu-projects" aria-label="Selected projects"></ul>
-      </li>
-      <li><a class="menu-heading" href="#about">About</a></li>
-    </ul>
+  <nav id="index-menu" class="index-menu" aria-labelledby="index-title" hidden inert>
+    <h2 id="index-title" class="menu-heading">SELECTED WORKS</h2>
+    <div class="menu-columns" aria-hidden="true"><span>project</span><span>client</span><span>assets</span><span>year</span></div>
+    <ul id="menu-projects" aria-label="Selected projects"></ul>
   </nav>
   <main id="main" tabindex="-1">
     <section id="archive" class="archive" aria-label="Projects">

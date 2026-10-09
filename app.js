@@ -411,34 +411,46 @@
     const item = element('li');
     const link = element('a', 'menu-project');
     link.href = '#project/' + project.id;
-    const name = element('span', 'menu-project-name');
-    name.append(element('span', '', project.title), element('span', 'menu-project-kind', project.kind));
-    link.append(name, element('span', 'menu-project-year', String(project.year)));
+    const details = element('span', 'menu-project-details');
+    const separator = element('span', 'menu-project-separator', '·');
+    separator.setAttribute('aria-hidden', 'true');
+    details.append(element('span', 'menu-project-client', project.client), separator,
+      element('span', 'menu-project-assets', project.assets));
+    link.append(element('span', 'menu-project-name', project.title), details,
+      element('span', 'menu-project-year', String(project.year)));
     item.append(link);
     menuProjects.append(item);
   }
 
   function setMenu(open, restoreFocus = false) {
+    const wasOpen = menuOpen;
     menuOpen = open;
     window.clearTimeout(menuCloseTimer);
     cancelAnimationFrame(menuOpenFrame);
     if (open) { touchPoint = null; cancelScroll(); hideCreditPreview(false, true); }
     if (open) {
       menu.hidden = false;
+      if (!wasOpen) menu.scrollTop = 0;
+      menu.getBoundingClientRect();
       menuOpenFrame = requestAnimationFrame(() => menu.classList.add('is-open'));
     } else {
       menu.classList.remove('is-open');
-      menuCloseTimer = window.setTimeout(() => { menu.hidden = true; }, 340);
+      const duration = parseFloat(getComputedStyle(menu).getPropertyValue('--menu-transition'));
+      menuCloseTimer = window.setTimeout(() => { menu.hidden = true; }, duration + 20);
     }
+    document.body.classList.toggle('index-open', open);
     menuToggle.setAttribute('aria-expanded', String(open));
-    menuToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    menuToggle.setAttribute('aria-label', open ? 'Close index' : 'Open index');
     menu.inert = !open;
     main.inert = open;
-    if (restoreFocus) menuToggle.focus();
+    if (restoreFocus) menuToggle.focus({ preventScroll: true });
   }
   menuToggle.addEventListener('click', () => setMenu(!menuOpen));
   document.addEventListener('pointerdown', event => {
-    if (menuOpen && !event.target.closest('#index-menu, .studio-header')) setMenu(false, true);
+    if (menuOpen && !event.target.closest('#index-menu, .studio-header')) {
+      event.preventDefault();
+      setMenu(false, true);
+    }
   });
   document.querySelector('.skip-link').addEventListener('click', event => {
     event.preventDefault();
@@ -615,7 +627,7 @@
     projectView.hidden = !project;
     aboutView.hidden = !about;
     contactView.hidden = !contact;
-    for (const link of menu.querySelectorAll('a')) {
+    for (const link of document.querySelectorAll('#index-menu a, .about-toggle')) {
       const selected = link.getAttribute('href') === (activeHash || '#');
       if (selected) link.setAttribute('aria-current', 'page');
       else link.removeAttribute('aria-current');
@@ -664,7 +676,12 @@
   }
 
   document.addEventListener('wheel', event => {
-    if (menuOpen || event.ctrlKey || event.target.closest('nav, input, textarea, select')) {
+    if (menuOpen) {
+      cancelScroll();
+      if (!event.target.closest('#index-menu') && !event.ctrlKey) event.preventDefault();
+      return;
+    }
+    if (event.ctrlKey || event.target.closest('nav, input, textarea, select')) {
       cancelScroll();
       return;
     }
@@ -691,7 +708,11 @@
     };
   }, { passive: true });
   document.addEventListener('touchmove', event => {
-    if (!touchPoint || menuOpen) return;
+    if (menuOpen) {
+      if (event.touches.length === 1 && event.cancelable && !event.target.closest('#index-menu')) event.preventDefault();
+      return;
+    }
+    if (!touchPoint) return;
     if (event.touches.length !== 1 || !event.cancelable) { touchPoint = null; return; }
     const point = event.touches[0];
     if (point.identifier !== touchPoint.id) return;
