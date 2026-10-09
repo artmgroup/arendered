@@ -20,7 +20,7 @@ Opening `index.html` directly redirects to this local address and preserves the 
 - Continue horizontally until the final credits reach the left edge, then scroll down to reach the project archive below.
 - With the project title or gallery focused, use arrow keys, Page Up/Down, or Space to navigate. Home/End moves to the start/end of the gallery.
 - Press Escape to return to the main archive and restore its scroll position.
-- Open INDEX at the upper right for Selected Works. Its typography matches the ARENDERED wordmark. On desktop, a paper sheet occupies the right 72% of the screen with aligned project/client/assets/year columns. On phones, a full-width sheet shows each project and year above its client and assets. The sheet owns native scrolling, keeps the page's reading position, and fades open and closed. Escape closes it and restores focus to INDEX. The current project has a neutral highlight.
+- Open INDEX at the upper right for Selected Works. Its typography matches the ARENDERED wordmark. On desktop, a paper sheet occupies the right 64% of the screen with aligned project/client/assets/year columns. A 10px inset on both sides keeps the hover/current highlight clear of the text. On phones, a full-width sheet shows each project and year above its client and assets. The sheet owns native scrolling, keeps the page's reading position, and fades open and closed. Escape closes it and restores focus to INDEX.
 - Each project has exactly one client/role/assets/year list, at the far right after its last image or film. The opening copy and video do not repeat metadata. Role labels distinguish direction, photography and archive work.
 - Thumbnail hover previews and mobile information use the same client/role/assets/year fields; titles remain on the thumbnail overlay.
 - About contains studio information and Services. Contact is a separate `#contact` page with email, phone, and Instagram links.
@@ -43,7 +43,7 @@ Opening `index.html` directly redirects to this local address and preserves the 
 | `assets/` | Optimized WebP images and source manifest |
 | `DESIGN.md` | Design contract and reference adaptations |
 
-The array order in `projects.js` controls the archive, menu, and continuation order. Add images as `{ "src": "assets/image.webp", "width": 1200, "height": 800 }`. `layout` selects gallery images by their original one-based source number; `coverImage` selects the archive/opening cover. Excluded images remain in the source catalog but are not mounted in the gallery.
+The array order in `projects.js` controls the archive, menu, and continuation order: Hyundai Motorstudio Seoul, CMF Master Talk, RETRACE, path by, MUSINSA MUJINJANG, KT Y. Add images as `{ "src": "assets/image.webp", "width": 1200, "height": 800 }`. `layout` selects gallery images by their original one-based source number; `coverImage` selects the archive/opening cover. Excluded images remain in the source catalog but are not mounted in the gallery.
 Project years were confirmed by the user: CMF Master Talk, RETRACE and Hyundai Motorstudio Seoul were made in 2025; path by, MUSINSA and KT Y in 2026. Contest entries are identified explicitly rather than presented as commissioned work. English descriptions and path by captions are editorial copy based on the supplied photographs and films.
 
 ## Sources

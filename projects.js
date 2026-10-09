@@ -1,5 +1,127 @@
 window.ARENDERED_PROJECTS = [
   {
+    "id": "motorstudio-seoul",
+    "role": "Film direction · Production",
+    "client": "Hyundai Motorstudio",
+    "assets": "Film",
+    "year": 2025,
+    "title": "Hyundai Motorstudio Seoul",
+    "subtitle": "Renewal promotion film",
+    "kind": "Film",
+    "cover": {
+      "src": "assets/motorstudio-seoul-cover.webp",
+      "width": 1200,
+      "height": 675
+    },
+    "video": "sZ6OwEBDlIw",
+    "description": "The glass frontage of Hyundai Motorstudio Seoul holds two views at once: the activity of the street and the space beyond it. Light and reflections make the boundary between them feel constantly in motion.\n\nCreated for the Motorstudio's renewal in 2025, the film begins with the building as part of the city. Its architecture provides the frame for a closer encounter with the renewed space.\n\nThe images follow the relationship between outside and inside, between the scale of the building and the details that give it character. Together, they form an introduction to a place designed to be entered and experienced.",
+    "source": "https://www.arendered.com/26",
+    "images": [
+      {
+        "src": "assets/motorstudio-seoul-01.webp",
+        "width": 1800,
+        "height": 1201
+      }
+    ]
+  },
+  {
+    "id": "cmf-master-talk",
+    "role": "Archive · Photography",
+    "client": "Hyundai Motorstudio",
+    "assets": "Still",
+    "year": 2025,
+    "title": "CMF Master Talk",
+    "subtitle": "Hyundai Motorstudio",
+    "kind": "Photography",
+    "coverImage": 1,
+    "cover": {
+      "src": "assets/cmf-master-talk-01.webp",
+      "width": 1800,
+      "height": 1013
+    },
+    "description": "A conversation takes shape in more than the person speaking. It is also held in the faces turned towards them, the pauses between gestures and the arrangement of people within a room.\n\nPhotographed at Hyundai Motorstudio in 2025, CMF Master Talk brings these different distances together. Wider frames establish the gathering and its architectural setting; closer portraits stay with the speaker and the expressions that carry the discussion.\n\nThe sequence moves between an individual voice and a shared moment of attention. The photographs keep the event's surroundings in view, letting its atmosphere emerge through the relationship between people and space.",
+    "layout": [
+      { "image": 2, "size": "portrait-crop", "align": "top" },
+      { "image": 3, "size": "portrait-crop", "align": "top" },
+      { "image": 4, "size": "portrait-crop", "align": "top" }
+    ],
+    "source": "https://www.arendered.com/CMFmasterTalk25",
+    "images": [
+      {
+        "src": "assets/cmf-master-talk-01.webp",
+        "width": 1800,
+        "height": 1013
+      },
+      {
+        "src": "assets/cmf-master-talk-02.webp",
+        "width": 1800,
+        "height": 1201
+      },
+      {
+        "src": "assets/cmf-master-talk-03.webp",
+        "width": 1198,
+        "height": 1600
+      },
+      {
+        "src": "assets/cmf-master-talk-04.webp",
+        "width": 1067,
+        "height": 1600
+      }
+    ]
+  },
+  {
+    "id": "retrace",
+    "role": "Archive · Film · Photography",
+    "client": "Hyundai Motorstudio",
+    "assets": "Still · Film",
+    "year": 2025,
+    "title": "RETRACE: STELLAR & SONATA",
+    "subtitle": "Hyundai Motorstudio",
+    "kind": "Film · Photography",
+    "cover": {
+      "src": "assets/retrace-01.webp",
+      "width": 1067,
+      "height": 1600
+    },
+    "coverPresentation": "portrait",
+    "leadPresentation": "portrait",
+    "description": "A publication sits beside photographs of cars from another time. Nearby, those familiar forms return at full scale, surrounded by people who have come to look and listen.\n\nMade in 2025, this film and photography project documents Hyundai Motorstudio's RETRACE magazine book talk, STELLAR & SONATA. The sequence begins with the printed material before moving into the gathering itself.\n\nBooks, archival displays and the cars connect the conversation to something tangible. Close details give way to wider views of the audience, allowing the objects on display and the people around them to share the frame.\n\nOutside, the cars sit against the glass frontage of the Motorstudio. The final view brings the history discussed inside back into the present-day city.",
+    "layout": [
+      { "image": 2, "size": "portrait-full", "align": "top" },
+      { "image": 3, "size": "landscape", "align": "top" },
+      { "image": 4, "size": "landscape", "align": "bottom" },
+      { "image": 5, "size": "landscape", "align": "top" }
+    ],
+    "source": "https://www.arendered.com/Bookta",
+    "images": [
+      {
+        "src": "assets/retrace-01.webp",
+        "width": 1067,
+        "height": 1600
+      },
+      {
+        "src": "assets/retrace-02.webp",
+        "width": 1067,
+        "height": 1600
+      },
+      {
+        "src": "assets/retrace-03.webp",
+        "width": 1800,
+        "height": 1201
+      },
+      {
+        "src": "assets/retrace-04.webp",
+        "width": 1800,
+        "height": 1013
+      },
+      {
+        "src": "assets/retrace-05.webp",
+        "width": 1800,
+        "height": 1066
+      }
+    ]
+  },
+  {
     "id": "path-by",
     "role": "Photography",
     "client": "Self-initiated",
@@ -239,128 +361,6 @@ window.ARENDERED_PROJECTS = [
         "src": "assets/kt-y-01.webp",
         "width": 1800,
         "height": 1013
-      }
-    ]
-  },
-  {
-    "id": "cmf-master-talk",
-    "role": "Archive · Photography",
-    "client": "Hyundai Motorstudio",
-    "assets": "Still",
-    "year": 2025,
-    "title": "CMF Master Talk",
-    "subtitle": "Hyundai Motorstudio",
-    "kind": "Photography",
-    "coverImage": 1,
-    "cover": {
-      "src": "assets/cmf-master-talk-01.webp",
-      "width": 1800,
-      "height": 1013
-    },
-    "description": "A conversation takes shape in more than the person speaking. It is also held in the faces turned towards them, the pauses between gestures and the arrangement of people within a room.\n\nPhotographed at Hyundai Motorstudio in 2025, CMF Master Talk brings these different distances together. Wider frames establish the gathering and its architectural setting; closer portraits stay with the speaker and the expressions that carry the discussion.\n\nThe sequence moves between an individual voice and a shared moment of attention. The photographs keep the event's surroundings in view, letting its atmosphere emerge through the relationship between people and space.",
-    "layout": [
-      { "image": 2, "size": "portrait-crop", "align": "top" },
-      { "image": 3, "size": "portrait-crop", "align": "top" },
-      { "image": 4, "size": "portrait-crop", "align": "top" }
-    ],
-    "source": "https://www.arendered.com/CMFmasterTalk25",
-    "images": [
-      {
-        "src": "assets/cmf-master-talk-01.webp",
-        "width": 1800,
-        "height": 1013
-      },
-      {
-        "src": "assets/cmf-master-talk-02.webp",
-        "width": 1800,
-        "height": 1201
-      },
-      {
-        "src": "assets/cmf-master-talk-03.webp",
-        "width": 1198,
-        "height": 1600
-      },
-      {
-        "src": "assets/cmf-master-talk-04.webp",
-        "width": 1067,
-        "height": 1600
-      }
-    ]
-  },
-  {
-    "id": "retrace",
-    "role": "Archive · Film · Photography",
-    "client": "Hyundai Motorstudio",
-    "assets": "Still · Film",
-    "year": 2025,
-    "title": "RETRACE: STELLAR & SONATA",
-    "subtitle": "Hyundai Motorstudio",
-    "kind": "Film · Photography",
-    "cover": {
-      "src": "assets/retrace-01.webp",
-      "width": 1067,
-      "height": 1600
-    },
-    "coverPresentation": "portrait",
-    "leadPresentation": "portrait",
-    "description": "A publication sits beside photographs of cars from another time. Nearby, those familiar forms return at full scale, surrounded by people who have come to look and listen.\n\nMade in 2025, this film and photography project documents Hyundai Motorstudio's RETRACE magazine book talk, STELLAR & SONATA. The sequence begins with the printed material before moving into the gathering itself.\n\nBooks, archival displays and the cars connect the conversation to something tangible. Close details give way to wider views of the audience, allowing the objects on display and the people around them to share the frame.\n\nOutside, the cars sit against the glass frontage of the Motorstudio. The final view brings the history discussed inside back into the present-day city.",
-    "layout": [
-      { "image": 2, "size": "portrait-full", "align": "top" },
-      { "image": 3, "size": "landscape", "align": "top" },
-      { "image": 4, "size": "landscape", "align": "bottom" },
-      { "image": 5, "size": "landscape", "align": "top" }
-    ],
-    "source": "https://www.arendered.com/Bookta",
-    "images": [
-      {
-        "src": "assets/retrace-01.webp",
-        "width": 1067,
-        "height": 1600
-      },
-      {
-        "src": "assets/retrace-02.webp",
-        "width": 1067,
-        "height": 1600
-      },
-      {
-        "src": "assets/retrace-03.webp",
-        "width": 1800,
-        "height": 1201
-      },
-      {
-        "src": "assets/retrace-04.webp",
-        "width": 1800,
-        "height": 1013
-      },
-      {
-        "src": "assets/retrace-05.webp",
-        "width": 1800,
-        "height": 1066
-      }
-    ]
-  },
-  {
-    "id": "motorstudio-seoul",
-    "role": "Film direction · Production",
-    "client": "Hyundai Motorstudio",
-    "assets": "Film",
-    "year": 2025,
-    "title": "Hyundai Motorstudio Seoul",
-    "subtitle": "Renewal promotion film",
-    "kind": "Film",
-    "cover": {
-      "src": "assets/motorstudio-seoul-cover.webp",
-      "width": 1200,
-      "height": 675
-    },
-    "video": "sZ6OwEBDlIw",
-    "description": "The glass frontage of Hyundai Motorstudio Seoul holds two views at once: the activity of the street and the space beyond it. Light and reflections make the boundary between them feel constantly in motion.\n\nCreated for the Motorstudio's renewal in 2025, the film begins with the building as part of the city. Its architecture provides the frame for a closer encounter with the renewed space.\n\nThe images follow the relationship between outside and inside, between the scale of the building and the details that give it character. Together, they form an introduction to a place designed to be entered and experienced.",
-    "source": "https://www.arendered.com/26",
-    "images": [
-      {
-        "src": "assets/motorstudio-seoul-01.webp",
-        "width": 1800,
-        "height": 1201
       }
     ]
   }

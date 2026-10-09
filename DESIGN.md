@@ -1,5 +1,11 @@
 # ARENDERED design system
 
+## 2026-10-09 INDEX spacing and project order refinement
+
+The user's latest screenshot identifies a hover wash beginning flush against the first glyph. IndexRow now extends its neutral wash by --menu-row-inset: 10px on each side, with the same inset inside the row. The heading, column labels and all row text retain their common alignment; the rectangular wash surrounds the complete row without clipping text or the last year. The inset becomes 0px at the existing 760px mobile breakpoint, preserving the approved phone layout. Desktop IndexSheet narrows from 72vw to 64vw; the 40px sheet padding, four aligned columns, theme colors and restrained fade remain the existing primitives.
+
+The shared project-data order is Hyundai Motorstudio Seoul / CMF Master Talk / RETRACE: STELLAR & SONATA / path by / MUSINSA MUJINJANG / KT Y. Archive, Selected Works and cyclic continuation use that one array. Project IDs, image selections, years and copy are retained. The first archive image preload follows Hyundai Motorstudio Seoul. Keyboard, narrow desktop wrapping, both themes and phone native scrolling are acceptance constraints; this refinement adds no accepted debt.
+
 ## 2026-10-09 approved INDEX sheet
 
 This contract supersedes all earlier menu and header-control rules. The user approved the desktop Selected Works sheet and the mobile two-line index on 2026-10-09. Reference images: `exec-6c8bebf0-106b-4acc-9a2d-1a2fdbaf3d53.png` (desktop) and `exec-8d761dbc-0184-41fb-9800-fbf7c0041496.png` (mobile), in the session's generated-images directory. Generated text sizes, paper texture and the desktop mock's unequal circles are illustrative: the explicit brief requires the existing live wordmark's exact typography, the existing flat theme tokens, and identical circle geometry.
