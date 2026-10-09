@@ -16,7 +16,7 @@ Opening `index.html` directly redirects to this local address and preserves the 
 ## Navigation
 
 - Hover or focus a thumbnail to reveal its title over a strong translucent wash and dissolve its credits into the right column. Select it to send those credits off to the right while the image rises into the project header and the content dissolves in, with the horse loader preserved. Touch opens projects directly; reduced motion skips these animations.
-- Scroll with a wheel or trackpad for HEJIK-inspired smooth motion through the horizontal gallery. Touch follows the gesture directly, then decelerates from the release speed. A downward reading gesture carries through the last credits into the archive without restarting; reversing it returns through the same boundary. A fresh touch stops momentum immediately. Reduced motion keeps direct gestures without release inertia.
+- Scroll with a wheel or trackpad for HEJIK-inspired smooth motion through the horizontal gallery. Horizontal touch gestures use native browser scrolling and momentum. A vertical gesture inside the gallery advances it directly and stops at its horizontal edge; the next vertical gesture scrolls the archive with native browser momentum. Archive touches never reset the gallery or document position. Safari and embedded-browser toolbar height changes leave mobile gallery geometry stable. Mobile players do not use the desktop scroll buffer.
 - Continue horizontally until the final credits reach the left edge, then scroll down to reach the project archive below.
 - With the project title or gallery focused, use arrow keys, Page Up/Down, or Space to navigate. Home/End moves to the start/end of the gallery.
 - Press Escape to return to the main archive and restore its scroll position.
@@ -27,7 +27,7 @@ Opening `index.html` directly redirects to this local address and preserves the 
 - On phones, project details sit below each thumbnail and crossfade as you scroll between projects. Reduced motion keeps this information fully visible. The same behavior applies to the archive after each gallery.
 - Inside a project, phone introductions stack only if the image and full description fit the gallery height. Otherwise the description moves to the next horizontal column. Long copy also supports vertical scrolling within its column.
 - The path by edit contains 9 distinct photographs: the retained blue-tile cover, two captioned 4:5 galleries, selected single-image frames and the final passage photograph. The supplied brick, relief and construction photographs remain excluded from the mounted sequence; original source files and numbering are retained for reversible editing.
-- Use the split-circle control beside the menu to switch light/dark mode. The initial theme follows the system; a manual choice is remembered.
+- Use the split-circle control beside the menu to switch light/dark mode. The initial theme is light; a manual choice is remembered.
 - Film players load immediately with muted inline autoplay and standard playback controls. Unmute in the player. Browser autoplay restrictions may require pressing the player's native play control.
 - Desktop films fill the gallery height at16:9 on both laptops and external displays. Phones keep a width-bound16:9 player. RETRACE's brochure photograph fills the same desktop height as the opening cover in a4:5 crop; the selected CMF photographs retain their existing4:5 crop size.
 - Project links such as `#project/path-by` can be opened directly or shared.

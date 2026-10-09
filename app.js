@@ -30,22 +30,36 @@
   const scrollStyle = getComputedStyle(document.documentElement);
   const scrollLerp = parseFloat(scrollStyle.getPropertyValue('--scroll-lerp'));
   const wheelMultiplier = parseFloat(scrollStyle.getPropertyValue('--scroll-wheel-multiplier'));
-  const touchMotion = {
-    threshold: parseFloat(scrollStyle.getPropertyValue('--touch-axis-threshold')),
-    window: parseFloat(scrollStyle.getPropertyValue('--touch-velocity-window')),
-    decay: parseFloat(scrollStyle.getPropertyValue('--touch-deceleration')),
-    maxVelocity: parseFloat(scrollStyle.getPropertyValue('--touch-max-velocity')),
-    stopVelocity: parseFloat(scrollStyle.getPropertyValue('--touch-stop-velocity'))
-  };
+  const touchThreshold = parseFloat(scrollStyle.getPropertyValue('--touch-axis-threshold'));
   const coarsePointer = matchMedia('(pointer: coarse)');
   const hoverPointer = matchMedia('(any-hover: hover)');
   const mobileArchive = matchMedia('(max-width: 600px), (max-width: 940px) and (max-aspect-ratio: 3/4) and (pointer: coarse)');
+  const touchViewport = matchMedia('(pointer: coarse), (max-width: 600px)');
+  let viewportWidth = innerWidth;
+  let touchViewportHeight = innerHeight;
+  let archiveMetricsDirty = true;
   let archiveInfoFrame = 0;
   const creditPreview = document.querySelector('#credit-preview');
   let previewCard = null;
   let previewAnimation = null;
   let previewLeaving = false;
   history.scrollRestoration = 'manual';
+
+  function syncTouchViewport() {
+    viewportWidth = innerWidth;
+    touchViewportHeight = innerHeight;
+    const root = document.documentElement;
+    if (touchViewport.matches) root.style.setProperty('--touch-viewport-height', touchViewportHeight + 'px');
+    else root.style.removeProperty('--touch-viewport-height');
+    archiveMetricsDirty = true;
+  }
+  syncTouchViewport();
+  touchViewport.addEventListener('change', () => {
+    syncTouchViewport();
+    touchPoint = null;
+    cancelScroll();
+    queueArchiveInfo();
+  });
 
   const themeToggle = document.querySelector('.theme-toggle');
   const systemTheme = matchMedia('(prefers-color-scheme: dark)');
@@ -126,17 +140,6 @@
   function animateScroll(time) {
     const animation = scrollAnimation;
     if (!animation) return;
-    if (animation.kind === 'touch') {
-      const elapsed = Math.min(time - animation.time, 64);
-      animation.time = time;
-      const decay = Math.exp(-elapsed / touchMotion.decay);
-      const distance = animation.velocity * touchMotion.decay * (1 - decay);
-      animation.velocity *= decay;
-      const moved = moveTouch(distance, animation);
-      if (!moved || Math.abs(animation.velocity) < touchMotion.stopVelocity) cancelScroll();
-      else scrollFrame = requestAnimationFrame(animateScroll);
-      return;
-    }
     const limits = scrollLimits();
     animation.target = Math.min(animation.target, limits.total);
     const elapsed = (time - animation.time) / 1000;
@@ -150,7 +153,6 @@
 
   function scrollToReading(position, smooth = true) {
     if (mobileArchive.matches) smooth = false;
-    if (scrollAnimation?.kind === 'touch') cancelScroll();
     const limits = scrollLimits();
     const target = Math.max(0, Math.min(limits.total, position));
     const current = readingPosition();
@@ -175,15 +177,20 @@
   for (const event of ['pointerdown', 'touchstart', 'keydown', 'wheel', 'focusin']) {
     document.addEventListener(event, cancelEntrance, { passive: true });
   }
-  window.addEventListener('resize', () => { touchPoint = null; cancelScroll(); });
-  window.addEventListener('resize', cancelEntrance);
+  window.addEventListener('resize', () => {
+    if (touchViewport.matches && innerWidth === viewportWidth) return;
+    syncTouchViewport();
+    touchPoint = null;
+    cancelScroll();
+    cancelEntrance();
+    queueArchiveInfo();
+  });
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) { touchPoint = null; cancelScroll(); }
   });
   reducedMotion.addEventListener('change', () => {
     cancelEntrance();
-    if (scrollAnimation?.kind === 'touch') cancelScroll();
-    else if (scrollAnimation) scrollToReading(scrollAnimation.target, false);
+    if (scrollAnimation) scrollToReading(scrollAnimation.target, false);
   });
 
   function showPageLoader(view, initial) {
@@ -303,15 +310,19 @@
     if (!mobileArchive.matches) return;
     const header = document.querySelector('.studio-header').getBoundingClientRect().bottom;
     const list = currentProject ? continuationList : document.querySelector('#project-list');
-    const lastHeight = list.lastElementChild?.getBoundingClientRect().height;
-    if (!lastHeight) return;
-    const tail = Math.max(0, innerHeight - header - lastHeight) + 'px';
-    if (list.style.getPropertyValue('--archive-tail') !== tail) list.style.setProperty('--archive-tail', tail);
-    for (const item of list.children) {
+    const states = [...list.children].map(item => {
       const box = item.getBoundingClientRect();
       const focused = item.querySelector('.project-card').matches(':focus-visible');
-      const opacity = reducedMotion.matches || focused ? 1 : Math.max(0, 1 - Math.abs(box.top - header) / box.height);
-      item.style.setProperty('--archive-info-opacity', opacity.toFixed(3));
+      return { item, box, opacity: reducedMotion.matches || focused ? 1 : Math.max(0, 1 - Math.abs(box.top - header) / box.height) };
+    });
+    if (archiveMetricsDirty && states.length) {
+      const tail = Math.max(0, touchViewportHeight - header - states.at(-1).box.height) + 'px';
+      list.style.setProperty('--archive-tail', tail);
+      archiveMetricsDirty = false;
+    }
+    for (const { item, opacity } of states) {
+      const value = opacity.toFixed(3);
+      if (item.style.getPropertyValue('--archive-info-opacity') !== value) item.style.setProperty('--archive-info-opacity', value);
     }
   }
 
@@ -319,7 +330,6 @@
     if (!archiveInfoFrame) archiveInfoFrame = requestAnimationFrame(updateArchiveInfo);
   }
   window.addEventListener('scroll', queueArchiveInfo, { passive: true });
-  window.addEventListener('resize', queueArchiveInfo);
   document.addEventListener('focusin', queueArchiveInfo);
   document.addEventListener('focusout', queueArchiveInfo);
   mobileArchive.addEventListener('change', queueArchiveInfo);
@@ -491,11 +501,16 @@
     player.referrerPolicy = 'strict-origin-when-cross-origin';
     player.src = 'https://www.youtube-nocookie.com/embed/' + project.video + '?autoplay=1&mute=1&playsinline=1&controls=1&rel=0&hl=en&origin=' + encodeURIComponent(location.origin);
     player.addEventListener('load', () => stage.removeAttribute('aria-busy'), { once: true });
-    const scrollSpace = element('div', 'player-scroll-space');
-    scrollSpace.setAttribute('aria-hidden', 'true');
-    stage.append(player, scrollSpace);
+    stage.append(player);
     frame.append(stage);
     target.append(frame);
+    if (touchViewport.matches) {
+      stage.classList.add('video-stage--native');
+      return;
+    }
+    const scrollSpace = element('div', 'player-scroll-space');
+    scrollSpace.setAttribute('aria-hidden', 'true');
+    stage.append(scrollSpace);
     const buffer = parseFloat(getComputedStyle(stage).getPropertyValue('--player-scroll-buffer'));
     stage.scrollTop = buffer;
     stage.addEventListener('scroll', () => {
@@ -584,6 +599,7 @@
   }
 
   function route(restore = false, origin = null, exitingPreview = false) {
+    archiveMetricsDirty = true;
     touchPoint = null;
     cancelEntrance();
     cancelScroll();
@@ -663,48 +679,15 @@
     if (advance(delta * wheelMultiplier, true)) event.preventDefault();
   }, { passive: false });
 
-  function moveTouch(delta, gesture) {
-    const limits = scrollLimits();
-    if (gesture.axis === 'x' || gesture.horizontalOnly) {
-      const before = reel.scrollLeft;
-      const position = Math.max(0, Math.min(limits.horizontal, before + delta));
-      applyScroll(position, limits.horizontal);
-      return Math.abs(position - before) > .01;
-    }
-    const start = readingPosition();
-    const panel = gesture.panel;
-    const panelStart = panel?.scrollTop || 0;
-    let remaining = delta;
-    if (panel?.isConnected && panel.scrollHeight > panel.clientHeight + 1) {
-      const offset = start - gesture.panelPosition;
-      if (offset * remaining < 0) {
-        const returning = Math.sign(remaining) * Math.min(Math.abs(remaining), Math.abs(offset));
-        applyScroll(start + returning, limits.horizontal);
-        remaining -= returning;
-      }
-      if (Math.abs(readingPosition() - gesture.panelPosition) < .5) {
-        panel.scrollTop = Math.max(0, Math.min(panel.scrollHeight - panel.clientHeight, panelStart + remaining));
-        remaining -= panel.scrollTop - panelStart;
-      }
-    }
-    const before = readingPosition();
-    const position = Math.max(0, Math.min(limits.total, before + remaining));
-    applyScroll(position, limits.horizontal);
-    return Math.abs((panel?.scrollTop || 0) - panelStart) + Math.abs(position - start) > .01;
-  }
-
   document.addEventListener('touchstart', event => {
     touchPoint = null;
-    if (!currentProject || menuOpen || event.touches.length !== 1 ||
-      !event.target.closest('#project-view') || event.target.closest('button, input, textarea, select, iframe')) return;
+    if (!currentProject || menuOpen || scrollY > 1 || event.touches.length !== 1 ||
+      !event.target.closest('#project-reel') || event.target.closest('button, input, textarea, select, iframe')) return;
     const point = event.touches[0];
     touchPoint = {
       id: point.identifier, x: point.clientX, y: point.clientY,
       startX: point.clientX, startY: point.clientY, axis: null,
-      horizontalOnly: false,
-      distance: 0, samples: [{ time: performance.now(), distance: 0 }],
-      panelPosition: readingPosition(),
-      panel: event.target.closest('.reel-intro-copy, .reel-description, .reel-credits, .reel-gallery')
+      target: event.target
     };
   }, { passive: true });
   document.addEventListener('touchmove', event => {
@@ -716,39 +699,21 @@
     if (!gesture.axis) {
       const dx = gesture.startX - point.clientX;
       const dy = gesture.startY - point.clientY;
-      if (Math.max(Math.abs(dx), Math.abs(dy)) < touchMotion.threshold) return;
+      if (Math.max(Math.abs(dx), Math.abs(dy)) < touchThreshold) return;
       gesture.axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
-      if (gesture.axis === 'x') gesture.panel = null;
-      gesture.horizontalOnly = gesture.axis === 'y' && scrollY <= .1 && reel.scrollLeft < scrollLimits().horizontal - .5;
+      const max = reel.scrollWidth - reel.clientWidth;
+      const canAdvance = dy > 0 ? reel.scrollLeft < max - .5 : reel.scrollLeft > .5;
+      if (gesture.axis === 'x' || !canAdvance || textCanScroll(gesture.target, dy)) {
+        touchPoint = null;
+        return;
+      }
     }
     event.preventDefault();
-    const delta = gesture.axis === 'x' ? gesture.x - point.clientX : gesture.y - point.clientY;
-    gesture.x = point.clientX;
+    const delta = gesture.y - point.clientY;
     gesture.y = point.clientY;
-    moveTouch(delta, gesture);
-    const time = performance.now();
-    const samples = gesture.samples;
-    const previousDelta = gesture.distance - samples[Math.max(0, samples.length - 2)].distance;
-    if (delta * previousDelta < 0) samples.splice(0, samples.length - 1);
-    gesture.distance += delta;
-    samples.push({ time, distance: gesture.distance });
-    while (samples.length > 2 && samples[0].time < time - touchMotion.window) samples.shift();
+    reel.scrollLeft = Math.max(0, Math.min(reel.scrollWidth - reel.clientWidth, reel.scrollLeft + delta));
   }, { passive: false });
-  document.addEventListener('touchend', event => {
-    const gesture = touchPoint;
-    touchPoint = null;
-    if (!gesture?.axis || event.touches.length || reducedMotion.matches || menuOpen || mobileArchive.matches) return;
-    const samples = gesture.samples;
-    const first = samples[0];
-    const last = samples[samples.length - 1];
-    const time = performance.now();
-    if (time - last.time > touchMotion.window || last.time <= first.time) return;
-    const velocity = Math.max(-touchMotion.maxVelocity, Math.min(touchMotion.maxVelocity,
-      (last.distance - first.distance) / (last.time - first.time)));
-    if (Math.abs(velocity) < touchMotion.stopVelocity) return;
-    scrollAnimation = { kind: 'touch', velocity, time, panel: gesture.panel, panelPosition: gesture.panelPosition };
-    scrollFrame = requestAnimationFrame(animateScroll);
-  }, { passive: true });
+  document.addEventListener('touchend', () => { touchPoint = null; }, { passive: true });
   document.addEventListener('touchcancel', () => { touchPoint = null; cancelScroll(); }, { passive: true });
 
   function moveFrame(direction) {
@@ -799,6 +764,7 @@
 
   new ResizeObserver(entries => {
     document.documentElement.style.setProperty('--header-height', entries[0].target.getBoundingClientRect().height + 'px');
+    archiveMetricsDirty = true;
     queueArchiveInfo();
   }).observe(document.querySelector('.studio-header'));
   route();

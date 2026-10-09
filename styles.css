@@ -59,10 +59,6 @@
   --scroll-lerp: .085;
   --scroll-wheel-multiplier: .86;
   --touch-axis-threshold: 4;
-  --touch-velocity-window: 96;
-  --touch-deceleration: 360;
-  --touch-max-velocity: 3;
-  --touch-stop-velocity: .02;
   font-family: "Suisse Intl", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px;
   color: var(--ink);
@@ -83,7 +79,7 @@
 * { box-sizing: border-box; }
 html { margin: 0; overflow-x: clip; scrollbar-width: none; background-color: var(--paper); color: var(--ink); transition: background-color var(--theme-transition) ease, color var(--theme-transition) ease; }
 html::-webkit-scrollbar { display: none; }
-body { margin: 0; min-height: 100dvh; font-size: var(--text-size); line-height: 1.2; letter-spacing: .4px; transition: background-color var(--theme-transition) ease, color var(--theme-transition) ease; }
+body { margin: 0; min-height: 100dvh; color: var(--ink); font-size: var(--text-size); line-height: 1.2; letter-spacing: .4px; transition: background-color var(--theme-transition) ease, color var(--theme-transition) ease; }
 a { color: inherit; text-decoration: none; }
 button { border: 0; border-radius: 0; padding: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
 button, a { -webkit-tap-highlight-color: transparent; }
@@ -99,13 +95,13 @@ img { display: block; }
 :root[data-theme="dark"] .page-loader__mark { filter: invert(1); }
 .sr-only, .skip-link:not(:focus) { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .skip-link:focus { position: fixed; top: var(--edge); left: 40%; z-index: 30; background: var(--paper); padding: var(--edge); }
-.studio-header { position: fixed; inset: 0 0 auto; z-index: 20; display: flex; justify-content: space-between; align-items: flex-start; padding: var(--edge); background: var(--paper); transition: background-color var(--theme-transition) ease, color var(--theme-transition) ease; }
+.studio-header { position: fixed; inset: 0 0 auto; z-index: 20; display: flex; justify-content: space-between; align-items: flex-start; padding: var(--edge); color: var(--ink); background: var(--paper); transition: background-color var(--theme-transition) ease, color var(--theme-transition) ease; }
 .wordmark { font-weight: 700; line-height: 1.2; display: block; width: fit-content; }
 .studio-identity p { line-height: 1.2; }
 .header-actions { display: flex; flex: 0 0 auto; }
 .theme-toggle, .menu-toggle { width: 44px; height: 44px; display: grid; justify-items: center; align-content: start; padding-top: 7px; }
 .header-actions svg { display: block; width: 14px; height: 14px; }
-.menu-toggle svg { transition: transform var(--menu-transition) cubic-bezier(.65, 0, .35, 1), color var(--theme-transition) ease; }
+.menu-toggle svg { transition: transform var(--menu-transition) cubic-bezier(.65, 0, .35, 1); }
 .menu-toggle[aria-expanded="true"] svg { transform: rotate(45deg); }
 .theme-toggle:hover { color: var(--muted); }
 .index-menu { position: fixed; top: var(--header-height); right: var(--edge); left: auto; width: var(--menu-width); max-height: calc(var(--reel-height) - var(--edge)); z-index: 20; overflow-y: auto; overscroll-behavior: contain; background: var(--paper); border: var(--index-rule); opacity: 0; transform: translateX(14px); visibility: hidden; pointer-events: none; transition: opacity var(--menu-transition) ease, transform var(--menu-transition) cubic-bezier(.65, 0, .35, 1), visibility 0s linear var(--menu-transition), background-color var(--theme-transition) ease, color var(--theme-transition) ease, border-color var(--theme-transition) ease; }
@@ -174,6 +170,7 @@ main { padding-top: var(--header-height); min-width: 0; }
 .reel-video { width: calc(var(--video-frame-height) * 16 / 9); }
 .video-stage { position: relative; width: 100%; height: 100%; aspect-ratio: 16 / 9; background: var(--wash); overflow-x: hidden; overflow-y: auto; scrollbar-width: none; clip-path: inset(0 var(--video-edge-trim) var(--video-edge-trim)); }
 .video-stage::-webkit-scrollbar { display: none; }
+.video-stage--native { overflow: hidden; }
 .video-stage iframe { position: sticky; top: 0; z-index: 1; width: 100%; height: 100%; border: 0; display: block; }
 .player-scroll-space { height: calc(var(--player-scroll-buffer) * 2); pointer-events: none; }
 .continuation { padding-top: var(--edge); }
@@ -215,6 +212,7 @@ main { padding-top: var(--header-height); min-width: 0; }
   .reel-photo { max-width: none; }
   .reel-photo img { object-position: top left; }
   .reel-photo--landscape img { height: 70%; max-width: none; }
+  .reel-photo--portrait-crop, .reel-photo--portrait-full { width: var(--thumbnail-width); }
   .reel-photo--portrait-crop img, .reel-photo--portrait-full img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; }
   .reel-intro { flex-direction: column; width: calc(100vw - var(--edge) * 2); min-width: calc(100vw - var(--edge) * 2); }
   .reel-lead-stack { width: 100%; }
@@ -234,7 +232,8 @@ main { padding-top: var(--header-height); min-width: 0; }
 }
 @media (max-width: 600px), (max-width: 940px) and (max-aspect-ratio: 3/4) and (pointer: coarse) {
   :root { --thumbnail-width: calc(100vw - var(--edge) * 2); --editorial-image-width: calc((100vw - var(--edge) * 3) / 2); }
-  .project-reel { touch-action: none; }
+  .project-reel { touch-action: auto; }
+  .reel-intro-copy, .reel-description, .reel-gallery { overscroll-behavior-y: contain; }
   .project-list { padding-bottom: max(var(--edge), var(--archive-tail, var(--edge))); }
   .mobile-project-info { display: block; margin-top: var(--edge); padding-bottom: var(--space-medium); opacity: var(--archive-info-opacity, 1); transform: translateY(calc((1 - var(--archive-info-opacity, 1)) * var(--archive-info-travel))); }
   .project-card .project-caption { display: none; }
@@ -243,6 +242,10 @@ main { padding-top: var(--header-height); min-width: 0; }
   .gallery-caption { width: calc(100vw - var(--edge) * 2); }
   .gallery-images img { height: calc(62.5vw - 18.75px); }
   .reel-photo--bottom img { object-position: bottom left; }
+}
+@media (pointer: coarse), (max-width: 600px) {
+  :root { --reel-height: calc(var(--touch-viewport-height, 100svh) - var(--header-height)); }
+  body { min-height: var(--touch-viewport-height, 100svh); }
 }
 @media (max-width: 940px) and (max-aspect-ratio: 3/4) {
   .about-view { display: block; }

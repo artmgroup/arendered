@@ -1,5 +1,17 @@
 # ARENDERED design system
 
+## 2026-10-09 native touch handoff and stable viewport
+
+This section supersedes the earlier mobile controller contracts. Horizontal finger gestures use the browser's native overflow and momentum, as in Kontakt's live project reel. A vertical gesture inside the reel, while the document is at the top and horizontal travel remains, advances the reel directly. That gesture stops at the horizontal edge. The next vertical gesture belongs entirely to native document scrolling, including release momentum and reverse travel through the continuation archive. Touches on the archive, menus and overflowing copy are never translated into document scroll writes. Pinch zoom remains native. Desktop wheel easing stays unchanged.
+
+Touch viewport height is measured on entry and updated only when viewport width changes (including orientation changes). Safari and embedded-browser toolbar height changes must not resize the reel, move photographs or cancel a gesture. Archive-tail geometry uses that same stable height; per-scroll metadata fades batch their reads before writes. Mobile video embeds use ordinary native scroll chaining, without the desktop player's synthetic scroll buffer or recentering.
+
+Mechanism evidence: [Kontakt's project script](https://kontakt.press/assets/scripts/index.js) uses native mobile horizontal overflow without touch interception; [WebKit viewport documentation](https://webkit.org/blog/12445/new-webkit-features-in-safari-15-4/) distinguishes dynamic toolbar-sensitive height from stable viewport sizing. Browser-engine emulation is recorded separately from actual iOS Safari and KakaoTalk device testing.
+
+Theme colors resolve directly from shared tokens on the body and header. The menu glyph inherits that one transition instead of starting another color transition on every inherited-color frame. This keeps the 420ms fade while preventing a faint plus symbol from lingering after the text has settled.
+
+On phones, portrait-crop and portrait-full figures explicitly use the shared thumbnail width. Setting only image width:100% against an auto-sized figure can resolve back to the source's intrinsic width; explicit figure sizing keeps CMF and RETRACE 4:5 images within the intended 10px edges. Landscape figures still expand to their natural rendered width for desktop-like horizontal reading.
+
 ## 2026-10-08 mobile reel ownership and editorial image scale
 
 On touch layouts the project reel owns both axes for the duration of a gesture (`touch-action: none`). The document only receives distance after the reel reaches its horizontal limit; this removes native browser scroll competition and keeps the turn into the continuation archive continuous. Copy panels remain part of the same controller and consume their own vertical overflow before gallery travel. Mobile follows Kontakt's direct reading model: the finger position is applied immediately and release inertia is disabled. Desktop wheel and trackpad input alone use the Hejik-inspired eased scroll.
