@@ -1,0 +1,13 @@
+{
+  "name": "ARENDERED — Creative Production",
+  "short_name": "ARENDERED",
+  "start_url": "./",
+  "display": "browser",
+  "background_color": "#f5f4f1",
+  "theme_color": "#f5f4f1",
+  "icons": [
+    { "src": "favicon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "favicon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "favicon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

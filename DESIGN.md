@@ -1,5 +1,15 @@
 # ARENDERED design system
 
+## 2026-10-10 mobile reading and asset optimization
+
+- Load gallery images one horizontal screen ahead and archive covers within 400px of the vertical viewport. Disconnect replaced frames and retain image dimensions before fetching, so the horizontal scroll extent stays stable.
+
+At 600px and below, introductions consistently use the existing right-hand copy column. This removes stacked text that becomes unreadable when browser toolbars reduce the visible height and prevents a toolbar change from moving columns horizontally. Photographs and the reel keep their stable touch viewport height. Text panels alone use --reading-height: the smaller of the stable reel content height and the current dynamic viewport minus the header, edge and safe-area bottom. Overflowing copy and gallery captions retain native vertical scrolling so the final line remains reachable. Desktop composition and the native touch handoff remain unchanged.
+
+Mobile IndexRow minimum height is 60px, with the existing 10px vertical padding; wrapped labels naturally increase the row height. Light muted labels use #706f6b for normal-text contrast on #f5f4f1. The approved font sizes remain. Initial header height derives from the four identity lines and spacing tokens, followed by exact observer measurement, avoiding the former mobile 82px-to-69px initial shift.
+
+The supplied red zoopraxiscope disc is resized without artwork changes. ICO includes 16/32/48/64px frames; PNG provides 16/32/192/512px; Apple touch uses 180px with the paper background; the 512px maskable version keeps the complete disc inside its central safe circle. A relative web manifest preserves GitHub Pages subpaths and browser display. The full Suisse glyph set and advances remain identical in WOFF2, with OTF fallback retained. Cover-only 480/960px WebP variants and 1280px for larger originals preserve aspect ratios and include the original as the largest srcset candidate. Gallery originals are retained. Prioritize the actual visible cover; archive cards are eager only on archive entry and continuation covers are lazy. Remove the fixed archive-cover preload from other routes. Acceptance covers all nine routes, both themes, Chrome and WebKit, shortened viewports, long copy, native scrolling, icon requests and fresh captures.
+
 ## 2026-10-09 INDEX spacing and project order refinement
 
 The user's latest screenshot identifies a hover wash beginning flush against the first glyph. IndexRow now extends its neutral wash by --menu-row-inset: 10px on each side, with the same inset inside the row. The heading, column labels and all row text retain their common alignment; the rectangular wash surrounds the complete row without clipping text or the last year. The inset becomes 0px at the existing 760px mobile breakpoint, preserving the approved phone layout. Desktop IndexSheet narrows from 72vw to 64vw; the 40px sheet padding, four aligned columns, theme colors and restrained fade remain the existing primitives.

@@ -254,15 +254,45 @@
     return node;
   }
 
+  const deferredImageSources = new WeakMap();
+  function loadImageSource(node, asset) {
+    if (asset.srcset) {
+      node.srcset = asset.srcset;
+      node.sizes = asset.sizes;
+    }
+    node.src = asset.src;
+  }
+  function loadIntersectingImages(entries, observer) {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      const asset = deferredImageSources.get(entry.target);
+      if (asset) {
+        entry.target.loading = 'eager';
+        loadImageSource(entry.target, asset);
+        deferredImageSources.delete(entry.target);
+      }
+      observer.unobserve(entry.target);
+    }
+  }
+  const galleryImageObserver = new IntersectionObserver(loadIntersectingImages, { root: reel, rootMargin: '0px 100%' });
+  const pageImageObserver = new IntersectionObserver(loadIntersectingImages, { rootMargin: '400px 0px' });
+  function observeImages(container, observer) {
+    for (const node of container.querySelectorAll('img')) {
+      if (deferredImageSources.has(node)) observer.observe(node);
+    }
+  }
+
   function image(asset, alt, project, eager = false) {
     const node = element('img');
-    node.src = asset.src;
     node.alt = alt;
     node.width = asset.width;
     node.height = asset.height;
+    node.style.setProperty('--image-aspect-ratio', asset.width + ' / ' + asset.height);
     node.loading = eager ? 'eager' : 'lazy';
     node.decoding = 'async';
     if (eager) node.fetchPriority = 'high';
+    if (eager) loadImageSource(node, asset);
+    else deferredImageSources.set(node, asset);
     node.addEventListener('error', () => {
       const message = element('div', 'media-error', 'This image could not be loaded. ');
       const link = element('a', '', 'View the original project');
@@ -407,7 +437,7 @@
   reducedMotion.addEventListener('change', () => hideCreditPreview(false, true));
 
   for (const [index, project] of projects.entries()) {
-    document.querySelector('#project-list').append(projectCard(project, index < 2, true));
+    document.querySelector('#project-list').append(projectCard(project, (!location.hash || location.hash === '#main') && index < 2, true));
     const item = element('li');
     const link = element('a', 'menu-project');
     link.href = '#project/' + project.id;
@@ -421,6 +451,7 @@
     item.append(link);
     menuProjects.append(item);
   }
+  observeImages(document.querySelector('#project-list'), pageImageObserver);
 
   function setMenu(open, restoreFocus = false) {
     const wasOpen = menuOpen;
@@ -460,7 +491,7 @@
   function addPhoto(project, asset, index, target = reel, size = null, align = 'top') {
     const presentation = size || (asset.width >= asset.height ? 'landscape' : index === 0 ? 'full' : 'portrait');
     const frame = element('figure', `reel-frame reel-photo reel-photo--${presentation} reel-photo--${align}`);
-    frame.append(image(asset, project.title + ' — photograph ' + (index + 1), project, index < 2));
+    frame.append(image(asset, project.title + ' — photograph ' + (index + 1), project));
     target.append(frame);
   }
 
@@ -560,12 +591,7 @@
   function updateIntroLayout() {
     const intro = reel.querySelector('.reel-intro');
     if (!intro) return;
-    const lead = intro.querySelector('.reel-lead-stack');
-    const copy = intro.querySelector('.reel-intro-copy');
-    const gap = parseFloat(getComputedStyle(intro).rowGap);
-    const needsSideCopy = matchMedia('(max-width: 600px)').matches &&
-      lead.offsetHeight + gap + copy.scrollHeight > intro.clientHeight + 1;
-    intro.classList.toggle('reel-intro--side-copy', needsSideCopy);
+    intro.classList.toggle('reel-intro--side-copy', matchMedia('(max-width: 600px)').matches);
   }
 
   const introResizeObserver = new ResizeObserver(updateIntroLayout);
@@ -599,7 +625,7 @@
     addCredits(project);
     const index = projects.indexOf(project);
     const following = projects.slice(index + 1).concat(projects.slice(0, index + 1));
-    continuationList.replaceChildren(...following.map((item, i) => projectCard(item, i === 0)));
+    continuationList.replaceChildren(...following.map(item => projectCard(item)));
     document.title = project.title + ' — ARENDERED';
     updateIntroLayout();
     for (const panel of [reel, leadStack, intro.querySelector('.reel-intro-copy')]) introResizeObserver.observe(panel);
@@ -618,6 +644,8 @@
     if (!exitingPreview) hideCreditPreview(false, true);
     const initial = activeHash === null;
     savePosition();
+    for (const node of reel.querySelectorAll('img')) galleryImageObserver.unobserve(node);
+    for (const node of continuationList.querySelectorAll('img')) pageImageObserver.unobserve(node);
     activeHash = location.hash;
     const project = projects.find(item => activeHash === '#project/' + item.id);
     const about = activeHash === '#about';
@@ -646,6 +674,8 @@
     const saved = restore ? positions.get(activeHash) : null;
     reel.scrollLeft = saved?.x || 0;
     window.scrollTo({ top: saved?.y || 0, behavior: 'instant' });
+    observeImages(reel, galleryImageObserver);
+    observeImages(continuationList, pageImageObserver);
     queueArchiveInfo();
     showPageLoader(project ? projectView : about ? aboutView : contact ? contactView : archive, initial);
     if (project) enterProject(origin);
