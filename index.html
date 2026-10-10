@@ -18,6 +18,10 @@
       const preference = saved === 'dark' ? 'dark' : 'light';
       document.documentElement.dataset.themePreference = preference;
       document.documentElement.dataset.theme = preference;
+      if (typeof CSS.registerProperty === 'function') {
+        CSS.registerProperty({ name: '--ink', syntax: '<color>', inherits: true, initialValue: '#20201f' });
+        document.documentElement.classList.add('color-token-motion');
+      }
     })();
   </script>
   <link rel="icon" href="favicon.ico?v=20261010-assets" sizes="16x16 32x32 48x48 64x64">
@@ -25,12 +29,12 @@
   <link rel="icon" type="image/png" href="favicon-16.png?v=20261010-assets" sizes="16x16">
   <link rel="apple-touch-icon" href="apple-touch-icon.png?v=20261010-assets" sizes="180x180">
   <link rel="manifest" href="site.webmanifest?v=20261010-assets">
-  <link rel="stylesheet" href="styles.css?v=20261010-mobile-reading">
+  <link rel="stylesheet" href="styles.css?v=20261010-index-credits">
   <link rel="preload" as="font" type="font/woff2" href="suisse-intl-regular.woff2" crossorigin>
   <link rel="preload" as="image" href="assets/horse-rider-loader.svg" media="(prefers-reduced-motion: no-preference)">
   <link rel="preload" as="image" href="assets/horse-rider-still.svg" media="(prefers-reduced-motion: reduce)">
-  <script src="projects.js?v=20261010-mobile-reading" defer></script>
-  <script src="app.js?v=20261010-mobile-reading" defer></script>
+  <script src="projects.js?v=20261010-index-credits" defer></script>
+  <script src="app.js?v=20261010-index-credits" defer></script>
 </head>
 <body>
   <div id="page-loader" class="page-loader" role="status" aria-label="Loading page" aria-hidden="true" hidden>

@@ -1,6 +1,7 @@
 window.ARENDERED_PROJECTS = [
   {
     "id": "motorstudio-seoul",
+    "productionCredits": [["Creative Direction", "Hyundai Innocean"], ["Director", "Heewon Jeong"], ["3D Artist", "Bomi Yeom"]],
     "role": "Film direction · Production",
     "client": "Hyundai Motorstudio",
     "assets": "Film",
@@ -28,6 +29,7 @@ window.ARENDERED_PROJECTS = [
   },
   {
     "id": "cmf-master-talk",
+    "productionCredits": [["Photography", "Heewon Jeong"]],
     "role": "Archive · Photography",
     "client": "Hyundai Motorstudio",
     "assets": "Still",
@@ -75,6 +77,7 @@ window.ARENDERED_PROJECTS = [
   },
   {
     "id": "retrace",
+    "productionCredits": [["Director", "Heewon Jeong"]],
     "role": "Archive · Film · Photography",
     "client": "Hyundai Motorstudio",
     "assets": "Still · Film",
@@ -129,6 +132,7 @@ window.ARENDERED_PROJECTS = [
   },
   {
     "id": "path-by",
+    "productionCredits": [["Photography", "Heewon Jeong"]],
     "role": "Photography",
     "client": "Self-initiated",
     "assets": "Still",
@@ -324,6 +328,7 @@ window.ARENDERED_PROJECTS = [
   },
   {
     "id": "musinsa",
+    "productionCredits": [["Director", "Heewon Jeong"]],
     "role": "Creative direction · Art direction",
     "client": "MUSINSA (contest entry)",
     "assets": "Film",
@@ -351,6 +356,7 @@ window.ARENDERED_PROJECTS = [
   },
   {
     "id": "kt-y",
+    "productionCredits": [["Director", "Heewon Jeong"]],
     "role": "Creative direction · Art direction",
     "client": "KT Y (contest entry)",
     "assets": "Film",

@@ -63,12 +63,21 @@
 
   const themeToggle = document.querySelector('.theme-toggle');
   const systemTheme = matchMedia('(prefers-color-scheme: dark)');
+  let themeChangeTimer = 0;
   function applyTheme(theme, preference) {
-    document.documentElement.dataset.theme = theme;
-    document.documentElement.dataset.themePreference = preference;
+    const root = document.documentElement;
+    const changed = root.dataset.theme !== theme;
+    if (changed) {
+      clearTimeout(themeChangeTimer);
+      root.classList.add('is-theme-changing');
+    }
+    root.dataset.theme = theme;
+    root.dataset.themePreference = preference;
     themeToggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
     themeToggle.setAttribute('aria-pressed', String(theme === 'dark'));
-    document.querySelector('meta[name="theme-color"]').content = getComputedStyle(document.documentElement).getPropertyValue('--paper').trim();
+    const style = getComputedStyle(root);
+    document.querySelector('meta[name="theme-color"]').content = style.getPropertyValue('--paper').trim();
+    if (changed) themeChangeTimer = setTimeout(() => root.classList.remove('is-theme-changing'), parseFloat(style.getPropertyValue('--theme-transition')));
   }
   applyTheme(document.documentElement.dataset.theme, document.documentElement.dataset.themePreference);
   themeToggle.addEventListener('click', () => {
@@ -337,33 +346,20 @@
 
   function updateArchiveInfo() {
     archiveInfoFrame = 0;
-    if (!mobileArchive.matches) return;
+    if (!mobileArchive.matches || !archiveMetricsDirty) return;
     const header = document.querySelector('.studio-header').getBoundingClientRect().bottom;
     const list = currentProject ? continuationList : document.querySelector('#project-list');
-    const states = [...list.children].map(item => {
-      const box = item.getBoundingClientRect();
-      const focused = item.querySelector('.project-card').matches(':focus-visible');
-      return { item, box, opacity: reducedMotion.matches || focused ? 1 : Math.max(0, 1 - Math.abs(box.top - header) / box.height) };
-    });
-    if (archiveMetricsDirty && states.length) {
-      const tail = Math.max(0, touchViewportHeight - header - states.at(-1).box.height) + 'px';
+    if (list.lastElementChild) {
+      const tail = Math.max(0, touchViewportHeight - header - list.lastElementChild.getBoundingClientRect().height) + 'px';
       list.style.setProperty('--archive-tail', tail);
       archiveMetricsDirty = false;
-    }
-    for (const { item, opacity } of states) {
-      const value = opacity.toFixed(3);
-      if (item.style.getPropertyValue('--archive-info-opacity') !== value) item.style.setProperty('--archive-info-opacity', value);
     }
   }
 
   function queueArchiveInfo() {
     if (!archiveInfoFrame) archiveInfoFrame = requestAnimationFrame(updateArchiveInfo);
   }
-  window.addEventListener('scroll', queueArchiveInfo, { passive: true });
-  document.addEventListener('focusin', queueArchiveInfo);
-  document.addEventListener('focusout', queueArchiveInfo);
   mobileArchive.addEventListener('change', queueArchiveInfo);
-  reducedMotion.addEventListener('change', queueArchiveInfo);
 
   function contentFields(project) {
     return [['client:', project.client], ['role:', project.role], ['assets:', project.assets], ['year:', project.year]];
@@ -585,6 +581,9 @@
     credits.id = 'project-credits';
     credits.setAttribute('aria-label', project.title + ' — credits');
     credits.append(element('h2', 'sr-only', 'Credits'), contentDetails(project));
+    const production = element('div', 'production-credits');
+    for (const [role, name] of project.productionCredits) production.append(element('p', '', role + ': ' + name));
+    credits.append(production);
     reel.append(credits);
   }
 

@@ -1,5 +1,15 @@
 # ARENDERED design system
 
+## 2026-10-10 quiet archive, index and production credits
+
+Mobile archive information is always fully visible and stationary. Remove per-scroll opacity/translation and their listeners while retaining the stable viewport-based archive tail that makes the last card readable. Desktop thumbnail previews retain their existing hover dissolve.
+
+Desktop IndexSheet narrows from 64vw to 52vw with the existing 40px inset and four wrapping columns. The phone sheet keeps its full width and 60px minimum rows; the heading uses 10px bottom padding and no bottom margin so the first row starts as close to its rule as subsequent rows. Preserve 44px or larger touch targets and native menu overflow.
+
+All index colors, secondary labels and rules follow --theme-transition: 420ms. Register --ink as an inherited CSS color and interpolate that token once on the root; body, header, index and image-overlay text inherit it without starting another color transition at each level. This avoids Chrome restarting descendant color transitions during an ancestor color animation and a native color-scheme change. During an actual theme change, non-hovered header controls inherit that same ink immediately; the hover/current row wash and header hover use the theme duration rather than the ordinary --motion-hover: 160ms. A temporary root state expires after the theme transition and restarts safely on rapid toggles. Reduced motion uses the existing 100ms theme duration. Menu opacity and position remain unchanged when toggling the theme.
+
+The title/subtitle gap in thumbnail overlays and project introductions is --text-space: .28em, the visual width of one Suisse space at the existing tracking. Project copy retains its paragraph breaks and single literal spaces. Production credits use exact supplied labels and names, one space after each colon, and separate lines. Place them only in the final far-right credits column, after the year with --credit-line-gap: 1.2em (one empty body line). Archive/hover metadata remains client/role/assets/year only. Constraints: existing typography, warm palette, horizontal reading, native touch handoff and image sizes remain approved; no new accepted debt.
+
 ## 2026-10-10 mobile reading and asset optimization
 
 - Load gallery images one horizontal screen ahead and archive covers within 400px of the vertical viewport. Disconnect replaced frames and retain image dimensions before fetching, so the horizontal scroll extent stays stable.
