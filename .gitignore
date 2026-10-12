@@ -1,0 +1,10 @@
+.DS_Store
+.cache/
+node_modules/
+dist/
+.qa/
+.sites-runtime/
+.omo/
+local-archive/
+design-studies/
+__pycache__/

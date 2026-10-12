@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="theme-color" content="#f5f4f1">
+  <meta name="description" content="ARENDERED is a creative production studio working across video, photography, and media art.">
+  <title>ARENDERED — Creative Production</title>
+  <script>
+    (() => {
+      if (location.protocol === 'file:') {
+        location.replace('http://127.0.0.1:4173/' + location.search + location.hash);
+        return;
+      }
+      let saved;
+      try { saved = localStorage.getItem('arendered-theme'); } catch {}
+      const preference = saved === 'dark' ? 'dark' : 'light';
+      document.documentElement.dataset.themePreference = preference;
+      document.documentElement.dataset.theme = preference;
+      if (typeof CSS.registerProperty === 'function') {
+        CSS.registerProperty({ name: '--ink', syntax: '<color>', inherits: true, initialValue: '#20201f' });
+        document.documentElement.classList.add('color-token-motion');
+      }
+    })();
+  </script>
+  <link rel="icon" href="icons/favicon.ico?v=20261012-organized" sizes="16x16 32x32 48x48 64x64">
+  <link rel="icon" type="image/png" href="icons/favicon-32.png?v=20261012-organized" sizes="32x32">
+  <link rel="icon" type="image/png" href="icons/favicon-16.png?v=20261012-organized" sizes="16x16">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=20261012-organized" sizes="180x180">
+  <link rel="manifest" href="icons/site.webmanifest?v=20261012-organized">
+  <link rel="stylesheet" href="styles/site.css?v=20261012-organized">
+  <link rel="preload" as="font" type="font/woff2" href="fonts/suisse-intl-regular.woff2" crossorigin>
+  <link rel="preload" as="image" href="animations/horse-rider-loader.svg" media="(prefers-reduced-motion: no-preference)">
+  <link rel="preload" as="image" href="animations/horse-rider-still.svg" media="(prefers-reduced-motion: reduce)">
+  <script src="content/projects.js?v=20261012-organized" defer></script>
+  <script src="scripts/site.js?v=20261012-organized" defer></script>
+</head>
+<body>
+  <div id="page-loader" class="page-loader" role="status" aria-label="Loading page" aria-hidden="true" hidden>
+    <picture class="page-loader__mark">
+      <source media="(prefers-reduced-motion: reduce)" srcset="animations/horse-rider-still.svg">
+      <img src="animations/horse-rider-loader.svg" width="680" height="430" alt="" fetchpriority="high">
+    </picture>
+  </div>
+  <a class="skip-link" href="#main">Skip to projects</a>
+  <header class="studio-header">
+    <div class="studio-identity">
+      <a class="wordmark" href="#" aria-label="ARENDERED projects">ARENDERED</a>
+      <p>creative production<br>video · photography · media art<br><a href="mailto:heewon@arendered.com">heewon@arendered.com</a></p>
+    </div>
+    <div class="header-actions">
+      <button class="header-control theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
+        <span class="header-control-glyph"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1"/><path d="M8 1.75a6.25 6.25 0 0 0 0 12.5Z" fill="currentColor"/></svg></span>
+      </button>
+      <a class="header-control about-toggle" href="#about" aria-label="About ARENDERED">
+        <span class="header-control-glyph"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1"/><circle cx="8" cy="4.9" r=".65" fill="currentColor"/><path d="M7.25 7H8v4h.75" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg></span>
+      </a>
+      <button class="header-control menu-toggle" type="button" aria-label="Open index" aria-expanded="false" aria-controls="index-menu">
+        <span class="header-control-glyph">INDEX</span>
+      </button>
+    </div>
+  </header>
+  <nav id="index-menu" class="index-menu" aria-labelledby="index-title" hidden inert>
+    <h2 id="index-title" class="menu-heading">SELECTED WORKS</h2>
+    <div class="menu-columns" aria-hidden="true"><span>project</span><span>client</span><span>assets</span><span>year</span></div>
+    <ul id="menu-projects" aria-label="Selected projects"></ul>
+  </nav>
+  <main id="main" tabindex="-1">
+    <section id="archive" class="archive" aria-label="Projects">
+      <h1 class="sr-only">ARENDERED — Selected work</h1>
+      <div id="project-list" class="project-list"></div>
+    </section>
+    <section id="project-view" class="project-view" aria-label="Project details" hidden>
+      <div id="project-reel" class="project-reel" role="region" aria-label="Horizontal project gallery. Use scrolling or arrow keys to navigate, then continue down after the credits." tabindex="0"></div>
+      <section id="continuation" class="continuation" aria-labelledby="continuation-title">
+        <h2 id="continuation-title" class="sr-only">More projects</h2>
+        <div id="continuation-list" class="project-list"></div>
+      </section>
+    </section>
+    <section id="about-view" class="about-view" aria-labelledby="about-title" hidden>
+      <figure class="about-photo">
+        <img src="images/studio/studio-portrait.jpg" width="1440" height="1800" alt="A seated figure beside a sunlit window." loading="lazy" decoding="async">
+      </figure>
+      <div class="about-copy">
+        <h1 id="about-title" class="sr-only" tabindex="-1">About</h1>
+        <p>We render imagination.</p>
+        <p>ARENDERED is a creative production studio making video, photography, and media art for companies, architects, and artists.</p>
+        <p class="about-separator" aria-hidden="true">—</p>
+        <dl class="contact-details">
+          <div><dt>Director</dt><dd>Heewon Jung</dd></div>
+          <div><dt>Contact</dt><dd><a href="mailto:heewon@arendered.com">heewon@arendered.com</a></dd></div>
+          <div><dt>Phone</dt><dd><a href="tel:+821088071697">+82 (0)10 8807 1697</a></dd></div>
+          <div><dt>Services</dt><dd><ul class="service-list"><li>Video</li><li>Photography</li><li>Media art</li></ul></dd></div>
+        </dl>
+        <div class="about-social">
+          <p aria-hidden="true">—</p>
+          <p>Instagram: <a href="https://www.instagram.com/arenderedofficial/" target="_blank" rel="noopener noreferrer">@arenderedofficial</a></p>
+        </div>
+      </div>
+    </section>
+    <section id="contact-view" class="contact-view" aria-labelledby="contact-title" hidden>
+      <h1 id="contact-title" tabindex="-1">Contact</h1>
+      <div class="contact-copy">
+        <p>For new projects, collaborations, and enquiries.</p>
+        <dl class="contact-details">
+          <div><dt>Email</dt><dd><a href="mailto:heewon@arendered.com">heewon@arendered.com</a></dd></div>
+          <div><dt>Phone</dt><dd><a href="tel:+821088071697">+82 (0)10 8807 1697</a></dd></div>
+          <div><dt>Instagram</dt><dd><a href="https://www.instagram.com/arenderedofficial/" target="_blank" rel="noopener noreferrer">@arenderedofficial</a></dd></div>
+        </dl>
+        <p class="contact-services">Video · Photography · Media art</p>
+      </div>
+    </section>
+  </main>
+  <aside id="credit-preview" class="credit-preview" aria-hidden="true" hidden></aside>
+  <noscript><p class="noscript">Enable JavaScript to view the project gallery. <a href="https://www.arendered.com/project">View the original project page</a></p></noscript>
+</body>
+</html>
