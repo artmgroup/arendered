@@ -6,13 +6,17 @@
 
 | 폴더·파일 | 역할 |
 |---|---|
-| `index.html` | 홈페이지 첫 화면, 헤더, About, Contact 구성 |
-| `content/projects.js` | 프로젝트 이름·설명·크레딧·이미지 순서 |
-| `scripts/site.js` | 메뉴, 테마 전환, 갤러리, 스크롤 동작 |
+| `index.html` | 홈페이지 기본 문서, 검색 정보, 스크립트 연결 |
+| `content/projects.js` | 영상·사진 포트폴리오의 제목, 설명, 미디어 목록 |
+| `scripts/site.js` | 페이지 구성, 언어·테마 전환, 메뉴와 갤러리 |
 | `styles/site.css` | 글꼴, 색상, 크기, 간격, 모바일 화면 스타일 |
-| `images/projects/` | 프로젝트별 사진과 썸네일 |
-| `images/studio/` | About 페이지 사진 |
-| `fonts/` | 홈페이지에서 사용하는 글꼴 |
+| `styles/lenis.css` | 데스크탑 스크롤 효과 스타일 |
+| `assets/video-stills/` | 영상 프로젝트의 미리보기 이미지 |
+| `assets/portfolio-2026/`, `assets/brochure-portfolio/` | 사진 포트폴리오 |
+| `assets/development/`, `assets/gaussian/` | Development 이미지와 3D 공간 데이터 |
+| `assets/vendor/` | 브라우저에서 사용하는 외부 라이브러리와 라이선스 |
+| `assets/`의 JS·CSS | 3D 뷰어와 생성형 그래픽 도구 |
+| `images/`, `fonts/`, `animations/` | 기존 프로젝트의 보관된 미디어 |
 | `icons/` | 파비콘, 모바일 홈 화면 아이콘, 앱 설정 |
 | `animations/` | 페이지 로딩 애니메이션 |
 | `docs/site-behavior.md` | 현재 화면 구성과 동작 설명 |
@@ -20,11 +24,9 @@
 | `CNAME` | GitHub Pages의 도메인 설정 |
 | `favicon.ico` | 브라우저의 기본 파비콘 요청을 위한 호환 파일 |
 
-사진은 `images/projects/프로젝트명/` 안에 있습니다. `thumbnail.webp`는 대표 사진, `thumbnail-480.webp`처럼 숫자가 붙은 파일은 화면 크기에 맞춘 썸네일, `photo-01.webp`처럼 번호가 붙은 파일은 본문 사진입니다. 사진 번호와 프로젝트의 선택 순서를 유지합니다.
-
 ## 프로젝트 수정
 
-`content/projects.js`에서 제목, 설명, `client`, `role`, `assets`, `year`, 제작 크레딧과 사진 경로를 수정합니다. 배열 순서가 메인 화면과 인덱스의 순서입니다. `layout`의 사진 번호는 각 프로젝트 `images` 배열의 순서를 가리킵니다.
+`content/projects.js`의 `MOVING_IMAGE_PORTFOLIO`에서 영상 12개를, `KEYNOTE_PORTFOLIO`와 `BROCHURE_PHOTOGRAPHY_PORTFOLIO`에서 사진 프로젝트 7개를 관리합니다. 배열 순서가 Portfolio 표시 순서입니다. 언어별 소개·연락처와 Development 목록은 `scripts/site.js`에서 관리합니다.
 
 ## 미리보기와 검사
 
@@ -40,7 +42,7 @@ node tools/preview-server.mjs
 node tools/check-file-links.mjs
 ```
 
-`tools/build-thumbnails.py`는 Pillow로 화면 크기별 썸네일을 생성합니다. `tools/build-icons.py`는 PNG 원본으로 ICO와 홈 화면 아이콘을 생성합니다. 이 도구는 홈페이지 방문 시 실행되지 않습니다.
+`tools/build-icons.py`는 PNG 원본으로 ICO와 홈 화면 아이콘을 생성합니다. `tools/build-thumbnails.py`는 기존 이미지 형식용 보관 도구입니다. 이 도구는 홈페이지 방문 시 실행되지 않습니다.
 
 ## 배포
 

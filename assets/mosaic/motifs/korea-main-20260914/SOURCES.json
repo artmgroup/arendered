@@ -1,0 +1,70 @@
+{
+  "date": "2026-09-14",
+  "description": "Owner-selected Korean motifs; original PNG bytes preserved. Place associations are editorial, not provenance verification.",
+  "files": [
+    {
+      "source": "백제_공산선 임류각 도리.png",
+      "file": "imnyugak.png"
+    },
+    {
+      "source": "백제_진묘수.png",
+      "file": "jinmyosu.png"
+    },
+    {
+      "source": "백졔_공산성 금서루 천장.png",
+      "file": "geumseoru.png"
+    },
+    {
+      "source": "백졔_연꽃구름무늬.png",
+      "file": "lotus-cloud.png"
+    },
+    {
+      "source": "신라_연꽃_동궁과월지.png",
+      "file": "wolji-lotus.png"
+    },
+    {
+      "source": "신라_기와_1_동궁과월지.png",
+      "file": "wolji-tile.png"
+    },
+    {
+      "source": "신라_기와_2_불국사.png",
+      "file": "bulguksa-flower.png"
+    },
+    {
+      "source": "신라_도깨비얼굴무늬_불국사.png",
+      "file": "bulguksa-face.png"
+    },
+    {
+      "source": "신라_기와_3_첨성대.png",
+      "file": "cheomseongdae-tile.png"
+    },
+    {
+      "source": "신라_천년의미소_첨성대png.png",
+      "file": "cheomseongdae-smile.png"
+    },
+    {
+      "source": "조선_광화문_단청_1.png",
+      "file": "gwanghwamun-1.png"
+    },
+    {
+      "source": "조선_광화문_단청_2.png",
+      "file": "gwanghwamun-2.png"
+    },
+    {
+      "source": "조선_광화문_주작.png",
+      "file": "jujak.png"
+    },
+    {
+      "source": "조선_근정전_단청_1.png",
+      "file": "geunjeongjeon-1.png"
+    },
+    {
+      "source": "조선_근정전_단청_2.PNG",
+      "file": "geunjeongjeon-2.png"
+    },
+    {
+      "source": "조선_근정전_해태.png",
+      "file": "haetae.png"
+    }
+  ]
+}

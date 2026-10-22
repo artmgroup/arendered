@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="단청 연화문 문양">
+  <g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round">
+    <g stroke-width="18">
+      <path id="lotus-bold-petal" d="M100 98C77 83 58 60 65 37 71 18 91 8 100 4c9 4 29 14 35 33 7 23-12 46-35 61Z"/>
+      <use href="#lotus-bold-petal" transform="rotate(90 100 100)"/>
+      <use href="#lotus-bold-petal" transform="rotate(180 100 100)"/>
+      <use href="#lotus-bold-petal" transform="rotate(270 100 100)"/>
+    </g>
+    <g stroke-width="12">
+      <path d="M100 87c-8-14-8-27 0-40 8 13 8 26 0 40Z"/>
+      <path d="M113 100c14-8 27-8 40 0-13 8-26 8-40 0Z"/>
+      <path d="M100 113c8 14 8 27 0 40-8-13-8-26 0-40Z"/>
+      <path d="M87 100c-14 8-27 8-40 0 13-8 26-8 40 0Z"/>
+    </g>
+    <circle cx="100" cy="100" r="24" stroke-width="18"/>
+    <circle cx="100" cy="100" r="8" stroke-width="12"/>
+  </g>
+</svg>

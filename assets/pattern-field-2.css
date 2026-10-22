@@ -1,0 +1,35 @@
+.pattern-field-2 { --lab-gap: 18px; --lab-title: 18px; --lab-control: 44px; --lab-field: #050608; --lab-input: #0a0d0f; width: 100%; height: 100dvh; aspect-ratio: auto; }
+.pattern-field-2 .pattern-field-control-header { gap: var(--lab-gap); flex-wrap: wrap; }
+.pattern-field-2 h1 { font-size: var(--lab-title); line-height: 1.3; letter-spacing: -.02em; margin: 0 0 8px; }
+.pattern-field-2 p { word-break: keep-all; overflow-wrap: break-word; }
+.pattern-field-2 .pattern-field-select-label { margin-left: 0; }
+.pattern-field-2 fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+.pattern-field-2 button:disabled, .pattern-field-2 fieldset:disabled { opacity: .5; }
+.pattern-field-2 .lab-presets { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: var(--lab-gap) 0; }
+.pattern-field-2 .lab-presets button { min-height: var(--lab-control); white-space: normal; font-size: 10px; line-height: 1.4; }
+.pattern-field-2 [data-lab-mode="relief"] { grid-column: 1 / -1; }
+.pattern-field-2 .lab-technique-ranges { margin: var(--lab-gap) 0; display: grid; gap: var(--lab-gap); }
+.pattern-field-2 .lab-details summary { min-height: var(--lab-control); cursor: pointer; color: var(--field-text); font-size: 11px; line-height: 1.6; padding-block: 12px; }
+.pattern-field-2 .lab-details .pattern-field-range { margin-top: var(--lab-gap); }
+.pattern-field-2 .lab-details summary:focus-visible { outline: 2px solid var(--field-blue); outline-offset: 3px; }
+.pattern-field-2 .lab-references { list-style: none; padding: 0; margin: 16px 0 0; display: grid; gap: 12px; font-size: 11px; line-height: 1.6; }
+.pattern-field-2 .lab-references a { color: var(--field-blue); }
+.pattern-field-2 .lab-seed { padding-inline: 24px; font-variant-numeric: tabular-nums; }
+.pattern-field-2 .lab-presets [aria-pressed="true"] { border-color: var(--field-blue); color: var(--field-blue); background: rgb(126 183 209 / .08); }
+.pattern-field-2 .lab-check { display: flex; gap: 10px; align-items: center; min-height: var(--lab-control); color: var(--field-muted); font-size: 11px; }
+.pattern-field-2 .lab-check input { width: 18px; height: 18px; accent-color: var(--field-blue); }
+.pattern-field-2 .lab-preview { width: 100%; aspect-ratio: 4 / 1; object-fit: cover; margin-top: var(--lab-gap); }
+.pattern-field-2 .lab-status { min-height: 32px; margin-top: var(--lab-gap); }
+.pattern-field-2 .lab-hint { margin-top: var(--lab-gap); }
+.pattern-field-2 .pattern-field-stage-footer { flex-wrap: wrap; }
+.pattern-field-2 .pattern-field-stage-footer > span { margin-left: auto; }
+.pattern-field-2 :is(button, a, select, input):focus-visible { outline: 2px solid var(--field-blue); outline-offset: 3px; }
+.pattern-field-2 .lab-exit { display: none; position: absolute; top: 16px; right: 16px; z-index: 3; background: var(--lab-field); }
+.pattern-field-2:fullscreen .lab-exit, .pattern-field-2.is-fullscreen-fallback .lab-exit { display: block; opacity: 0; }
+.pattern-field-2:fullscreen:hover .lab-exit, .pattern-field-2.is-fullscreen-fallback:hover .lab-exit, .pattern-field-2 .lab-exit:focus-visible { opacity: 1; }
+.pattern-field-2 .pattern-field-stage.is-interactive { touch-action: none; cursor: crosshair; }
+.pattern-field-2 .pattern-field-stage > canvas { width: 100% !important; height: 100% !important; touch-action: pan-y !important; }
+.pattern-field-2 .pattern-field-stage.is-interactive > canvas { touch-action: none !important; }
+.pattern-field-2 [hidden] { display: none; }
+@media (hover: none) { .pattern-field-2 .lab-exit { opacity: 1 !important; } }
+@media (max-width: 900px) { .pattern-field-2 { height: auto; } }
