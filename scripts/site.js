@@ -13,6 +13,8 @@
     : [];
   const museumMovingImagePortfolio = movingImagePortfolio.filter((project) => project.key.startsWith("national-"));
   const nonMuseumMovingImagePortfolio = movingImagePortfolio.filter((project) => !project.key.startsWith("national-"));
+  const orderedMovingImagePortfolio = [...museumMovingImagePortfolio, ...nonMuseumMovingImagePortfolio]
+    .sort((first, second) => Number(second.key === "hyundai-motorstudio-opening-2025") - Number(first.key === "hyundai-motorstudio-opening-2025"));
   const brochureContact = [
     { name: "Heewon Jeong", role: "Director" },
     { name: "Jisu Kong", role: "Director" },
@@ -151,7 +153,7 @@
     },
   };
 
-  const supportedLanguages = new Set(["ko", "en", "ja"]);
+  const supportedLanguages = new Set(["ko", "en"]);
   const storedLanguage = storage.get("arendered-language", "en");
   let language = supportedLanguages.has(storedLanguage) ? storedLanguage : "en";
   let theme = storage.get("arendered-theme", "light") === "dark" ? "dark" : "light";
@@ -166,7 +168,7 @@
     ko: {
       nav: {
         about: "소개",
-        work: "Works",
+        work: "작업",
         development: "연구",
         contact: "연락처",
         lounge: "Lounge",
@@ -174,7 +176,7 @@
       pageNames: {
         home: "홈",
         about: "소개",
-        work: "Works",
+        work: "작업",
         development: "연구",
         contact: "연락처",
         mosaic: "모자이크 스튜디오",
@@ -199,7 +201,7 @@
           "Creative production",
           "Video, Photography, Media Art",
         ],
-        workLink: "Works",
+        workLink: "작업",
       },
       about: {
         title: "소개",
@@ -211,11 +213,11 @@
         ],
       },
       work: {
-        eyebrow: "DIRECTOR'S WORKS",
-        title: "Works",
-        featured: "Selected Works",
-        photography: "Photography",
-        movingImage: "Film",
+        eyebrow: "디렉터의 작업",
+        title: "작업",
+        featured: "주요 작업",
+        photography: "사진",
+        movingImage: "영상",
         records: "브로슈어에 수록된 작업",
       },
       development: {
@@ -512,181 +514,6 @@
       skip: "Skip to content",
       mainNavigation: "Main navigation",
       homeLabel: "ARENDERED home",
-    },
-    ja: {
-      nav: {
-        about: "紹介",
-        work: "Works",
-        development: "研究",
-        contact: "連絡先",
-        lounge: "Lounge",
-      },
-      pageNames: {
-        home: "ホーム",
-        about: "紹介",
-        work: "Works",
-        development: "研究",
-        contact: "連絡先",
-        mosaic: "モザイク・スタジオ",
-        patternField: "パターン・フィールド",
-        patternField2: "Pattern Field 2 / p5.js",
-        keumsanSog: "260806_Keumsan",
-        keumsanSogTest2: "260806_Keumsan_Test2",
-        sceneSog: "Scene (SOG)",
-        loungeRad: "Lounge (RAD チャンク)",
-        loungeRadLod: "Lounge (RAD + LoD ストリーミング)",
-        loungeSplat: "Lounge (SPLAT+26mm)",
-        loungeSplat35: "Lounge (SPLAT+35mm)",
-        floorIphoneOptimized: "Fourth Floor iPhone (Optimized)",
-        floorIphoneFull: "Fourth Floor iPhone",
-        floorIphone: "Fourth Floor iPhone compressed version",
-        lounge: "Lounge",
-        loungeDepth: "Lounge monochrome",
-      },
-      home: {
-        title: "ARENDERED",
-        leadLines: [
-          "Creative production",
-          "Video, Photography, Media Art",
-        ],
-        workLink: "Works",
-      },
-      about: {
-        title: "紹介",
-        profile: "ARENDERED",
-        items: [
-          { text: "ARENDEREDは、映像・写真・メディアアートを制作するクリエイティブプロダクションスタジオです。" },
-          { text: "企業、建築家、アーティストと協働し、アイデアをイメージにします。企画・演出から撮影・制作まで、プロジェクトに合った視覚表現をつくります。" },
-          { text: "We render imagination." },
-        ],
-      },
-      work: {
-        eyebrow: "DIRECTOR'S WORKS",
-        title: "Works",
-        featured: "Selected Works",
-        photography: "Photography",
-        movingImage: "Film",
-        records: "ブロシュア収録作品",
-      },
-      development: {
-        eyebrow: "3DGS / Graphic Archive",
-        title: "研究",
-        viewerTitle: "Lounge",
-        viewerHint: "ドラッグで回転 · スクロールでズーム · 右ドラッグで移動",
-        viewerCue: "3D操作",
-        keumsanSogTitle: "260806_Keumsan",
-        keumsanSogNote: "",
-        keumsanSogCredit: "",
-        keumsanSogDescription: "",
-        keumsanSogCanvasLabel: "260806_Keumsan ガウシアンスプラット自由視点ビューア",
-        keumsanSogTest2Title: "260806_Keumsan_Test2",
-        keumsanSogTest2CanvasLabel: "260806_Keumsan_Test2 壁面テスト ガウシアンスプラット自由視点ビューア",
-        sceneSogTitle: "Scene (SOG)",
-        sceneSogNote: "",
-        sceneSogCredit: "",
-        sceneSogDescription: "",
-        sceneSogCanvasLabel: "Scene SOG ガウシアンスプラット自由視点ビューア",
-        floorOptimizedTitle: "Fourth Floor iPhone (Optimized)",
-        floorOptimizedNote: "",
-        floorOptimizedCredit: "Source : NVIDIA PhysicalAI-Robotics-NuRec · License : CC BY 4.0",
-        floorOptimizedDescription: "",
-        floorOptimizedCanvasLabel: "Fourth Floor iPhone optimized Gaussian splat free-view viewer",
-        radChunkTitle: "Lounge (RAD チャンク)",
-        radChunkNote: "",
-        radChunkCredit: "",
-        radChunkDescription: "",
-        radChunkCanvasLabel: "Lounge RAD チャンク・ガウシアンスプラット自由視点ビューア",
-        radLodTitle: "Lounge (RAD + LoD ストリーミング)",
-        radLodNote: "",
-        radLodCredit: "",
-        radLodDescription: "",
-        radLodCanvasLabel: "Lounge RAD 事前計算 LoD ガウシアンスプラット自由視点ビューア",
-        openSplatTitle: "Lounge (SPLAT+26mm)",
-        openSplatNote: "",
-        openSplatCredit: "Source : NVIDIA PhysicalAI-Robotics-NuRec · License : CC BY 4.0",
-        openSplatDescription: "",
-        openSplatCanvasLabel: "Lounge SPLAT 26mm free-view Gaussian splat viewer",
-        openSplat35Title: "Lounge (SPLAT+35mm)",
-        openSplat35Note: "",
-        openSplat35Credit: "Source : NVIDIA PhysicalAI-Robotics-NuRec · License : CC BY 4.0",
-        openSplat35Description: "",
-        openSplat35CanvasLabel: "Lounge SPLAT 35mm free-view Gaussian splat viewer",
-        sourceCameraInfo: (sourceCamera) => `Source Camera : ${sourceCamera}`,
-        viewerCameraInfo: ({ focalLength, verticalFov }) => `Viewer Camera : ${focalLength} / vertical FOV ${verticalFov}`,
-        floorFullTitle: "Fourth Floor iPhone",
-        floorFullNote: "",
-        floorFullCredit: "Source : NVIDIA PhysicalAI-Robotics-NuRec · License : CC BY 4.0",
-        floorFullDescription: "",
-        floorFullCanvasLabel: "Fourth Floor iPhone ガウシアンスプラット自由視点ビューア",
-        floorTitle: "Fourth Floor iPhone compressed version",
-        floorNote: "",
-        floorCredit: "Source : NVIDIA PhysicalAI-Robotics-NuRec · License : CC BY 4.0",
-        floorDescription: "",
-        floorCanvasLabel: "Fourth Floor iPhone ガウシアンスプラット自由視点ビューア",
-        openTitle: "Lounge",
-        openNote: "",
-        openCredit: "Source : NVIDIA PhysicalAI-Robotics-NuRec · License : CC BY 4.0",
-        openDescription: "",
-        openAction: "Open Viewer",
-        depthTitle: "Lounge monochrome",
-        depthNote: "",
-        depthCredit: "Source : NVIDIA PhysicalAI-Robotics-NuRec · License : CC BY 4.0",
-        depthDescription: "",
-        depthAction: "Open Viewer",
-        loungeArtistTitle: "Artist",
-        loungeVideoTitle: "Video",
-        artworkInfoTitle: "Artwork",
-        artworkClose: "Close",
-        keumsanArtist: {
-          title: "Artist Statement",
-          paragraphs: [
-            "I am Sungyong Hong, a visual artist based in South Korea. My work begins with stories of memory and time. My desire to preserve the precious moments shared with others from fading away stems from a poignant awareness of time, which can never be held onto forever. As people strive in their own ways to keep and preserve special memories, I record this process through the concept of ‘preserved memory.’",
-            "A preserved memory is far more than a simple act of achieving the past. It is an act of holding onto people, places, and specific moments so they do not vanish, serving as a medium and an object that summons memory back into the present. Throughout this process, I maintain a deep fascination with surfaces and materials. In my work, the surface transcends mere external form; it is a space where memories dwell and time accumulates.",
-            "The primary material through which I embody this theme is Ottchil (traditional Korean lacquer). I use Ottchil because of its exceptional durability. Ottchil protects objects over long periods, and is known for presenting embodiment of the long history and culture of Korea and Asia. In particular, the layers of Ottchil built up one upon another closely mirror the process by which memories accumulate over time.",
-            "Ultimately, my work borrows the material characteristics of Ottchil to capture and preserve memories, happiness, and the traces of fading emotions. Visualizing the evolving and deepening visage of memory amidst layers of time is the story I seek to tell through my art.",
-          ],
-          links: [
-            { label: "Homepage", url: "https://artistsyhong.artspoon.io/ko" },
-            { label: "Artworks", url: "https://artistsyhong.artspoon.io/artworks" },
-            { label: "CV", url: "https://artistsyhong.artspoon.io/cv" },
-            { label: "About", url: "https://artistsyhong.artspoon.io/about" },
-          ],
-        },
-        loungeInfo: "円形パネルまたはWASDで素早く移動し、マウスを押したままドラッグして視線を操作します。",
-        loungeControls: "ドラッグ移動",
-        loungeBack: "Back",
-        loungePointer: "キャンバスをクリックしたままドラッグすると視点が変わります。WASDで空間内を移動します。",
-        loading: "PLYファイルを読み込み中",
-        ready: "準備完了",
-        reset: "視点をリセット",
-        canvasLabel: "Lounge ガウシアンスプラット自由視点ビューア",
-        monochromeCanvasLabel: "Lounge monochrome ガウシアンスプラット自由視点ビューア",
-        error: "PLYファイルを読み込めませんでした。",
-      },
-      contact: {
-        eyebrow: "STUDIO DIRECTORY",
-        title: "連絡先",
-        team: "チーム",
-        email: "メール",
-        roles: {
-          Director: "ディレクター",
-          "Sound Director": "サウンドディレクター",
-        },
-      },
-      language: "言語",
-      languageChoice: "日本語",
-      korean: "한국어",
-      english: "English",
-      japanese: "日本語",
-      openLanguage: "言語メニューを開く",
-      closeLanguage: "言語メニューを閉じる",
-      openMenu: "メニューを開く",
-      closeMenu: "メニューを閉じる",
-      themeDark: "ダークモードに切り替え",
-      themeLight: "ライトモードに切り替え",
-      skip: "本文へ移動",
-      mainNavigation: "メインナビゲーション",
-      homeLabel: "ARENDERED ホーム",
     },
   };
 
@@ -1052,7 +879,6 @@
       <div class="language-menu__panel" id="language-menu-panel" role="menu" aria-label="${c.language}" hidden>
         <button class="language-menu__option" type="button" role="menuitemradio" data-language="ko" aria-checked="${language === "ko"}">${c.korean}</button>
         <button class="language-menu__option" type="button" role="menuitemradio" data-language="en" aria-checked="${language === "en"}">${c.english}</button>
-        <button class="language-menu__option" type="button" role="menuitemradio" data-language="ja" aria-checked="${language === "ja"}">${c.japanese}</button>
       </div>
     </div>`;
 
@@ -1075,7 +901,8 @@
 
   const homePage = (c) => {
     const leadLines = Array.isArray(c.home.leadLines) ? c.home.leadLines : [c.home.lead];
-    const portfolioPreview = "assets/video-stills/cropped/national-palace--Pk4WEJ3gM8.jpg";
+    const leadProject = orderedMovingImagePortfolio[0];
+    const portfolioPreview = leadProject.image.src;
     return `
       <main class="page page--home" id="main" tabindex="-1" aria-label="${c.pageNames.home}">
         <section class="home-landing" aria-labelledby="page-title">
@@ -1085,11 +912,11 @@
           </div>
           <nav class="home-landing__links" aria-label="${c.pageNames.home}">
             <a class="home-preview-link home-preview-link--portfolio" href="#works">
-              <span class="home-preview-link__label">Works</span>
+              <span class="home-preview-link__label">${c.home.workLink}</span>
               <span class="home-preview-link__media">
                 <span class="home-preview-link__image-frame home-preview-link__image-frame--video">${image({
                   src: portfolioPreview,
-                  alt: "Blooming Hwarot Prologue thumbnail",
+                  alt: leadProject.image.alt[language] || leadProject.image.alt.en,
                   eager: true,
                 })}</span>
               </span>
@@ -1736,7 +1563,7 @@
         (project) => portfolioProject(project),
       )
       .join("");
-    const movingProjects = [...museumMovingImagePortfolio, ...nonMuseumMovingImagePortfolio]
+    const movingProjects = orderedMovingImagePortfolio
       .map(movingImageProject)
       .join("");
     return `
@@ -1779,8 +1606,8 @@
                 )
                 .join("")}
             </ul>
-            <p class="contact-profile__email"><a href="mailto:heewon@arendered.com">${c.contact.email}: heewon@arendered.com</a></p>
-            <p class="contact-profile__email"><a href="tel:+821088071697">+82 (0)10 8807 1697</a></p>
+            <p class="contact-profile__email">${c.contact.email}: heewon@arendered.com</p>
+            <p class="contact-profile__email">+82 010 8807 1697</p>
           </div>
         </div>
       </section>
