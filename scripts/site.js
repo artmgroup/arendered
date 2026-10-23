@@ -15,31 +15,16 @@
   const nonMuseumMovingImagePortfolio = movingImagePortfolio.filter((project) => !project.key.startsWith("national-"));
   const brochureContact = [
     { name: "Heewon Jeong", role: "Director" },
+    { name: "Jisu Kong", role: "Director" },
   ];
-  const validPages = ["home", "about", "work", "development", "contact", "mosaic", "patternField", "patternField2", "keumsanSog", "loungeRad", "loungeRadLod", "loungeSplat", "loungeSplat35", "floorIphoneOptimized", "floorIphoneFull", "lounge"];
+  const validPages = ["home", "about", "work", "contact"];
   const routePages = {
     home: "home",
     about: "about",
     portfolio: "work",
     work: "work",
-    development: "development",
+    works: "work",
     contact: "contact",
-    mosaic: "mosaic",
-    "pattern-field": "patternField",
-    "pattern-field-2": "patternField2",
-    "pattern-field2": "patternField2",
-    pattern: "patternField",
-    "260806-keumsan": "keumsanSog",
-    "keumsan-sog": "keumsanSog",
-    "lounge-rad-chunk": "loungeRad",
-    "lounge-rad-lod": "loungeRadLod",
-    "lounge-splat": "loungeSplat",
-    "lounge-splat-35mm": "loungeSplat35",
-    "fourth-floor-iphone-optimized": "floorIphoneOptimized",
-    "fourth-floor-iphone": "floorIphoneFull",
-    "fourth-floor-iphone-full": "floorIphoneFull",
-    "floor-iphone-full": "floorIphoneFull",
-    lounge: "lounge",
   };
   const interactiveViewerPages = new Set(["keumsanSog", "loungeRad", "loungeRadLod", "loungeSplat", "loungeSplat35", "floorIphoneOptimized", "floorIphoneFull", "lounge"]);
   const hostedViewerOrigin = "https://arendered.com";
@@ -67,7 +52,7 @@
     const pathKey = normalizeRouteKey(window.location.pathname);
     return routePages[pathKey] || "home";
   };
-  const hrefForPage = (targetPage) => `#${targetPage === "work" ? "portfolio" : targetPage}`;
+  const hrefForPage = (targetPage) => `#${targetPage === "work" ? "works" : targetPage}`;
   let page = pageFromLocation();
   const routeLoader = document.querySelector("[data-route-loader]");
   let routeLoaderStartedAt = 0;
@@ -181,7 +166,7 @@
     ko: {
       nav: {
         about: "소개",
-        work: "포트폴리오",
+        work: "Works",
         development: "연구",
         contact: "연락처",
         lounge: "Lounge",
@@ -189,7 +174,7 @@
       pageNames: {
         home: "홈",
         about: "소개",
-        work: "포트폴리오",
+        work: "Works",
         development: "연구",
         contact: "연락처",
         mosaic: "모자이크 스튜디오",
@@ -214,7 +199,7 @@
           "Creative production",
           "Video, Photography, Media Art",
         ],
-        workLink: "포트폴리오 보기",
+        workLink: "Works",
       },
       about: {
         title: "소개",
@@ -226,11 +211,11 @@
         ],
       },
       work: {
-        eyebrow: "DIRECTOR'S PORTFOLIO",
-        title: "포트폴리오",
-        featured: "선별 포트폴리오",
-        photography: "사진 포트폴리오",
-        movingImage: "영상 포트폴리오",
+        eyebrow: "DIRECTOR'S WORKS",
+        title: "Works",
+        featured: "Selected Works",
+        photography: "Photography",
+        movingImage: "Film",
         records: "브로슈어에 수록된 작업",
       },
       development: {
@@ -356,7 +341,7 @@
     en: {
       nav: {
         about: "About",
-        work: "Portfolio",
+        work: "Works",
         development: "Development",
         contact: "Contact",
         lounge: "Lounge",
@@ -364,7 +349,7 @@
       pageNames: {
         home: "Home",
         about: "About",
-        work: "Portfolio",
+        work: "Works",
         development: "Development",
         contact: "Contact",
         mosaic: "Mosaic Studio",
@@ -389,7 +374,7 @@
           "Creative production",
           "Video, Photography, Media Art",
         ],
-        workLink: "View Portfolio",
+        workLink: "Works",
       },
       about: {
         title: "About",
@@ -401,11 +386,11 @@
         ],
       },
       work: {
-        eyebrow: "DIRECTOR'S PORTFOLIO",
-        title: "Portfolio",
-        featured: "Selected portfolio",
-        photography: "Photography portfolio",
-        movingImage: "Video portfolio",
+        eyebrow: "DIRECTOR'S WORKS",
+        title: "Works",
+        featured: "Selected Works",
+        photography: "Photography",
+        movingImage: "Film",
         records: "Selected work from the brochure",
       },
       development: {
@@ -531,7 +516,7 @@
     ja: {
       nav: {
         about: "紹介",
-        work: "ポートフォリオ",
+        work: "Works",
         development: "研究",
         contact: "連絡先",
         lounge: "Lounge",
@@ -539,7 +524,7 @@
       pageNames: {
         home: "ホーム",
         about: "紹介",
-        work: "ポートフォリオ",
+        work: "Works",
         development: "研究",
         contact: "連絡先",
         mosaic: "モザイク・スタジオ",
@@ -564,7 +549,7 @@
           "Creative production",
           "Video, Photography, Media Art",
         ],
-        workLink: "ポートフォリオを見る",
+        workLink: "Works",
       },
       about: {
         title: "紹介",
@@ -576,11 +561,11 @@
         ],
       },
       work: {
-        eyebrow: "ディレクター・ポートフォリオ",
-        title: "ポートフォリオ",
-        featured: "セレクテッド・ポートフォリオ",
-        photography: "写真ポートフォリオ",
-        movingImage: "映像ポートフォリオ",
+        eyebrow: "DIRECTOR'S WORKS",
+        title: "Works",
+        featured: "Selected Works",
+        photography: "Photography",
+        movingImage: "Film",
         records: "ブロシュア収録作品",
       },
       development: {
@@ -705,7 +690,7 @@
     },
   };
 
-  const navItems = ["about", "work", "development", "contact"];
+  const navItems = ["about", "work", "contact"];
 
   const icon = (name) => {
     const paths = {
@@ -1099,8 +1084,8 @@
             <p class="home-landing__lead">${leadLines.map((line) => `<span>${escapeHTML(line)}</span>`).join("")}</p>
           </div>
           <nav class="home-landing__links" aria-label="${c.pageNames.home}">
-            <a class="home-preview-link home-preview-link--portfolio" href="#portfolio">
-              <span class="home-preview-link__label">Portfolio</span>
+            <a class="home-preview-link home-preview-link--portfolio" href="#works">
+              <span class="home-preview-link__label">Works</span>
               <span class="home-preview-link__media">
                 <span class="home-preview-link__image-frame home-preview-link__image-frame--video">${image({
                   src: portfolioPreview,
@@ -1796,7 +1781,6 @@
             </ul>
             <p class="contact-profile__email"><a href="mailto:heewon@arendered.com">${c.contact.email}: heewon@arendered.com</a></p>
             <p class="contact-profile__email"><a href="tel:+821088071697">+82 (0)10 8807 1697</a></p>
-            <p class="about-profile__instagram"><a href="https://www.instagram.com/arenderedofficial/" target="_blank" rel="noopener noreferrer">@arenderedofficial</a></p>
           </div>
         </div>
       </section>
@@ -2117,19 +2101,7 @@
     if (page === "home") return homePage(c);
     if (page === "about") return aboutPage(c);
     if (page === "work") return workPage(c);
-    if (page === "development") return developmentPage(c);
     if (page === "contact") return contactPage(c);
-    if (page === "mosaic") return mosaicPage(c);
-    if (page === "patternField") return patternFieldPage(c);
-    if (page === "patternField2") return `<main class="pattern-field-page pattern-field-2" id="main" tabindex="-1" aria-label="${escapeHTML(c.pageNames.patternField2)}" data-pattern-field-2><p role="status">Loading Pattern Field 2…</p></main>`;
-    if (page === "keumsanSog") return gaussianStudyPage(c, "keumsanSog");
-    if (page === "loungeRad") return gaussianStudyPage(c, "loungeRad");
-    if (page === "loungeRadLod") return gaussianStudyPage(c, "loungeRadLod");
-    if (page === "loungeSplat") return gaussianStudyPage(c, "loungeSplat");
-    if (page === "loungeSplat35") return gaussianStudyPage(c, "loungeSplat35");
-    if (page === "floorIphoneOptimized") return gaussianStudyPage(c, "floorIphoneOptimized");
-    if (page === "floorIphoneFull") return gaussianStudyPage(c, "floorIphoneFull");
-    if (page === "lounge") return gaussianStudyPage(c);
     return emptyPage(c);
   };
 

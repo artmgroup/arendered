@@ -26,7 +26,7 @@
 
 ## 프로젝트 수정
 
-`content/projects.js`의 `MOVING_IMAGE_PORTFOLIO`에서 영상 12개를, `KEYNOTE_PORTFOLIO`와 `BROCHURE_PHOTOGRAPHY_PORTFOLIO`에서 사진 프로젝트 7개를 관리합니다. 배열 순서가 Portfolio 표시 순서입니다. 언어별 소개·연락처와 Development 목록은 `scripts/site.js`에서 관리합니다.
+`content/projects.js`의 `MOVING_IMAGE_PORTFOLIO`에서 영상 12개를, `KEYNOTE_PORTFOLIO`와 `BROCHURE_PHOTOGRAPHY_PORTFOLIO`에서 사진 프로젝트 7개를 관리합니다. 배열 순서가 Works 표시 순서입니다. 언어별 소개·연락처는 `scripts/site.js`에서 관리합니다.
 
 ## 미리보기와 검사
 
